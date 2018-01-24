@@ -25,7 +25,7 @@ categories: windows linux bash
 1. 點擊**系統**
 1. 點擊**關於**
 
-![build number](images/2018-01-20-Install-linux-on-windows-10/build-number.png)
+![build number](/assets/2018-01-20-Install-linux-on-windows-10/build-number.png)
 
 ## 步驟
 
@@ -45,7 +45,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-L
 
 在**Microsoft Store**中下載**Linux**系統，本篇以**ubuntu**做演示，各位也可以安裝其他的Linux版本。
 
-![download-ubuntu](images/2018-01-20-Install-linux-on-windows-10/download-ubuntu.PNG)
+![download-ubuntu](/assets/2018-01-20-Install-linux-on-windows-10/download-ubuntu.PNG)
 
 ### 第一次啟用設定
 
@@ -57,7 +57,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-L
 lsb_release -a
 ```
 
-![hello linux](images/2018-01-20-Install-linux-on-windows-10/hello-linux.PNG)
+![hello linux](/assets/2018-01-20-Install-linux-on-windows-10/hello-linux.PNG)
 
 ## 結語
 
