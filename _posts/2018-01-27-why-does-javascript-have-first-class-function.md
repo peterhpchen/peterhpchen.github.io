@@ -186,7 +186,7 @@ console.log(nonLocalVariable());
 
 附上CODEPEN的代碼供參考。
 
-<p data-height="265" data-theme-id="0" data-slug-hash="ppXKWB" data-default-tab="js" data-user="peterhpchen" data-embed-version="2" data-pen-title="Why does JS have First-class function?" class="codepen">See the Pen <a href="https://codepen.io/peterhpchen/pen/ppXKWB/">Why does JS have First-class function?</a> by Peter Chen (<a href="https://codepen.io/peterhpchen">@peterhpchen</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="ppXKWB" data-default-tab="js,result" data-user="peterhpchen" data-embed-version="2" data-pen-title="Why does JS have First-class function?" class="codepen">See the Pen <a href="https://codepen.io/peterhpchen/pen/ppXKWB/">Why does JS have First-class function?</a> by Peter Chen (<a href="https://codepen.io/peterhpchen">@peterhpchen</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 ## 簡報
