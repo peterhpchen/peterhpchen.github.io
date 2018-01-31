@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "為什麼JavaScript的Function是First-class Function?"
-date:   2018-01-26 11:00:00 +0800
+date:   2018-01-27 11:00:00 +0800
 categories: javascript
 ---
 
