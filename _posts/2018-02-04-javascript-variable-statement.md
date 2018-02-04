@@ -135,7 +135,7 @@ console.log(a); // ReferenceError: a is not defined
 console.log(b); // B
 ```
 
-在之前的[JavaScript的Hoisting](/_posts/2018-01-31-javascript-hoisting.md)時有提到抬升只會在相同的作用域下動作，所以`var`宣告的`a`並不能在全域中被叫用，而未宣告變數可以。
+在之前的[JavaScript的Hoisting]({% post_url 2018-01-31-javascript-hoisting %})時有提到抬升只會在相同的作用域下動作，所以`var`宣告的`a`並不能在全域中被叫用，而未宣告變數可以。
 
 * 宣告變數可以在未賦值前叫用，而未宣告變數會拋出錯誤。
 
