@@ -129,6 +129,128 @@ switch(x) {
 }
 ```
 
+## Temporal Dead Zone(TDZ)
+
+JavaScript的編譯器在發現變數宣告有可能會有兩個動作:
+
+* 遇到var宣告時，將變數抬升至作用域頂端。
+* 遇到let或是const宣告時，將變數放至Temporal Dead Zone(TDZ)。
+
+var會將變數的宣告抬升至作用域頂端，所以在宣告前叫用變數是不會出錯的，只會拿到未宣告的初始值undefined。
+
+```javascript
+function hoistingDemo(){
+  // var a  // Declaration of a By Hoisting
+  
+  console.log(typeof a);  // undefined
+  
+  console.log(a); // undefined
+  
+  var a = 'A';
+}
+```
+
+而由於let及const並沒有抬升的機制，所以在區塊裡還未執行到宣告的行數前，這個變數都是在TDZ中，在這個範圍內叫用此變數的話會拋出Reference Error的例外。
+
+```javascript
+function TDZDemo(){
+  // TDZ
+  console.log(typeof b);  // undefined
+
+  console.log(typeof a);  // ReferenceError: can't access lexical declaration `a' before initialization
+  
+  console.log(a); // ReferenceError: can't access lexical declaration `a' before initialization
+  // TDZ
+  let a = 'A';
+}
+```
+
+從上面的程式可以看出來未宣告的b叫用typeof會回傳undefined，而用let宣告的變數a卻在叫用typeof的時候丟回ReferenceError的例外，這是因為typeof為了辨識未宣告變數及在TDZ中的變數所做的差異。
+
+接著來看幾個在MDN上的特別例子。
+
+* 同一個陳述式中
+
+```javascript
+function test(){
+   var foo = 33;
+   if (true) {
+      let foo = (foo + 55); // ReferenceError
+   }
+}
+```
+
+這裡會拋出ReferenceError的例外，是不是出乎意料呢? 其實仔細想想(foo + 55)已經在if的區塊中了，所以會先找if區塊中是否有宣告foo變數，而if區塊中確實有let foo的宣告，所以會抓到if區塊中的foo，但是這個foo在(foo + 55)執行時還是在TDZ中，所以就會拋出錯誤。
+
+* 迴圈中
+
+```javascript
+function go(n) {
+  // n here is defined!
+  console.log(n); // Object {a: [1,2,3]}
+
+  for (let n of n.a) { // ReferenceError
+    console.log(n);
+  }
+}
+go({a: [1, 2, 3]});
+```
+
+這裡的(let n of n.a)已經在for的區塊內了，所以會先找for區塊中有沒有n的宣告，發現區塊中的確有let n的宣告，但是在叫用n.a的時候，在for區塊內的n還未被宣告，因此是在TDZ中，所以會拋出ReferenceError例外。
+
+## 迴圈中的let
+
+在迴圈中如果想要用index設定函式的參數時，需要用IIFE來存入副本變數，否則每次的參考變數都會指向同一個。
+
+```javascript
+function varForDemo() {
+  var funcs = [];
+  for (var i = 0; i < 10; i++) {
+    funcs.push(function() {
+      return i; // same variable i
+    });
+  }
+  funcs.forEach(function(func) {
+    console.log(func());  // 10 10 10 10 10 10 10 10 10 10
+  });
+}
+
+function varForIIFEDemo() {
+  var funcs = [];
+  for (var i = 0; i < 10; i++) {
+    funcs.push(
+      (function(value) {
+        return function() {
+          return value; // value is a copy of i. every value is different variable.
+        };
+      })(i)
+    );
+  }
+  funcs.forEach(function(func) {
+    console.log(func());  // 0 1 2 3 4 5 6 7 8 9
+  });
+}
+```
+
+而let可以幫我們很優雅地解決這個問題，因為let在每個區塊中都會是新的變數，所以每次的迭代都會是不同的變數。
+
+```javascript
+function letForDemo() {
+  var funcs = [];
+  for (let i = 0; i < 10; i++) {
+    funcs.push(function() {
+      return i; // every i is different variable.
+    });
+  }
+  funcs.forEach(function(func) {
+    console.log(func());  // 0 1 2 3 4 5 6 7 8 9
+  });
+}
+```
+
+## 結語
+
 ## 參考
 
 * [MDN:let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+* [MDN:typeof](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof)
