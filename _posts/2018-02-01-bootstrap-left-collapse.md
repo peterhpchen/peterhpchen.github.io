@@ -7,6 +7,8 @@ categories: bootstrap
 
 > Bootstrap上有個navbar的功能，裡面提供了一個[External content](https://getbootstrap.com/docs/4.0/components/navbar/#external-content)的功能讓我們可以將內容先隱藏起來，等到使用者點擊按鈕觸發後才會以動畫的方式拉開內容，這樣的動畫呈現是使用了Bootstrap它自己的[Collapse元件](https://getbootstrap.com/docs/4.0/components/collapse/)，但是Collapse只提供上下的展開，並沒有左右伸縮的功能，這讓我很苦惱，因為需求是要做從左邊展開的導覽列，[自己刻一個](https://codepen.io/peterhpchen/pen/qppNwR)是沒有問題，但既然Bootstrap都有提供Collapse以及跟按鈕的整合了，不用一下說不過去，這篇就來看看要怎麼使用Bootstrap做出一個可以有轉換動畫做隱藏及顯示的左清單列吧。
 
+> 2018-02-08: add new content: 使用transform的轉場動畫
+
 ## Navbar external content
 
 > 先來做個一般的隱藏內容。
@@ -164,9 +166,76 @@ _getDimension() {
 </div>
 ```
 
-最後的程式如下:
+程式如下:
 
 <p data-height="265" data-theme-id="0" data-slug-hash="yvYXbK" data-default-tab="html,result" data-user="peterhpchen" data-embed-version="2" data-pen-title="bootstrap v4 left menu bar(not height 100%)" class="codepen">See the Pen <a href="https://codepen.io/peterhpchen/pen/yvYXbK/">bootstrap v4 left menu bar(not height 100%)</a> by Peter Chen (<a href="https://codepen.io/peterhpchen">@peterhpchen</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+## 使用transform的轉場動畫
+
+上面的例子所使用的轉場對象是`width`，看到的是清單內容慢慢隱沒的效果，還有另一種是直接把內容向左推，推動的是整個區塊，我們來看兩者的效果差別:
+
+![transform-vs-width-transition](/assets/2018-02-01-bootstrap-left-collapse/transform-vs-width-transition.gif)
+
+上面的比較圖我們可以看到左邊的是我們目前使用`width`做轉換的版本，可以看到它會慢慢的把內容文字從又變捲掉，而右邊會是整個區塊往左推，所以可以看到是從左邊的內容開始消失。
+
+兩種不同的版本會因設計需求不同而被採用，現在來示範用`translate`的方式實作。
+
+首先因為bootstrap的`collapse`是對長度(寬度或高度)做轉換，而`translate`的效果是不需要動到長度的，因此我們先把原本設定寬度`dimension`的`width`類別拿掉:
+
+```html
+<div class="bg-dark collapse position-fixed" id="navbarToggleExternalContent">...</div>
+```
+
+拿掉`width`後，bootstrap變回抓預設的`dimension`: `Height`了，所以我們現在要**固定高度**:
+
+```css
+#navbarToggleExternalContent{
+  display: block;
+  height: 100%;
+  min-height: 100%;
+}
+```
+
+在固定高度後，就要來修改動畫的部分，前面有說因為`collapse`是以長度為動畫依據，所以全部的預設動畫都沒有用處了，我們需要自己加上動畫。
+
+為此我們需要定義一個`class`，在`show`的時候加到元素上，藉這個`class`來設定開啟時候的狀態，為了達到這個目的我們用bootstrap提供的js事件來實作:
+
+```javascript
+const $menu = $('#navbarToggleExternalContent');
+
+$menu.on('show.bs.collapse', function () {
+  $menu.addClass('menu-show');
+});
+
+$menu.on('hide.bs.collapse', function () {
+  $menu.removeClass('menu-show');
+});
+```
+
+使用`menu-show` class，在`show`的時候加上，在`hidden`的時候清掉，現在我們在`show`的時候元素上會有`menu-show`這個類別了。
+
+最後我們來加上動畫吧，在**初始的狀態下我們是要隱藏menu的**，所以我們用`translateX(-100%)`來隱藏清單:
+
+```css
+#navbarToggleExternalContent{
+  transform: translateX(-100%);
+  transition: transform .35s ease;
+  ...
+}
+```
+
+接著在顯示的狀態下，清單的起始位置應該要在`0px`(靠左)的地方:
+
+```css
+#navbarToggleExternalContent.menu-show{
+  transform: translateX(0%);
+}
+```
+
+如此一來，我們就可以得到一個`translate`的左導覽列了:
+
+<p data-height="265" data-theme-id="0" data-slug-hash="MQbYgp" data-default-tab="html,result" data-user="peterhpchen" data-embed-version="2" data-pen-title="bootstrap v4 left menu transform bar" class="codepen">See the Pen <a href="https://codepen.io/peterhpchen/pen/MQbYgp/">bootstrap v4 left menu transform bar</a> by Peter Chen (<a href="https://codepen.io/peterhpchen">@peterhpchen</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 ## 結語
