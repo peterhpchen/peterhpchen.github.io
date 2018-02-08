@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "JavaScript中的Let"
-date:   2018-02-05 01:00:00 +0800
+date:   2018-02-08 08:00:00 +0800
 categories: javascript
 ---
 
@@ -165,9 +165,9 @@ function TDZDemo(){
 }
 ```
 
-從上面的程式可以看出來未宣告的`b`叫用`typeof`會回傳`undefined`，而用`let`宣告的變數`a`卻在叫用`typeof`的時候丟回`ReferenceError`的例外，這是因為`typeof`為了辨識未宣告變數及在TDZ中的變數所做的差異。
+從上面的程式可以看出來未宣告的`b`叫用`typeof`會回傳`undefined`，而用`let`宣告的變數`a`卻在叫用`typeof`的時候丟回`ReferenceError`的例外，這是`typeof`為了辨識未宣告變數及在TDZ中的變數所做的差異。
 
-接著來看幾個在MDN上的特別例子。
+接著來看幾個在[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)上的特別例子。
 
 * 同一個陳述式中
 
@@ -250,7 +250,7 @@ function letForDemo() {
 
 ## 結語
 
-`let`跟`var`最大的差別是在作用域的大小，相對於`var`是在整個函式或是全域中，`let`是在區塊內，而且不會有Hoisting的動作、及禁止重複宣告的限制，讓JavaScript的特性更接近我們所熟知的語言。
+`let`跟`var`最大的差別是在作用域的大小，相對於`var`是在整個函式或是全域中，`let`是在區塊內，而且不會有Hoisting的動作，也禁止重複宣告的限制，讓JavaScript的特性更接近我們所熟知的語言。
 
 在宣告`let`變數的同一個區塊中只要還沒有執行到宣告變數的行前，此變數都是在TDZ中，而TDZ會使`typeof`拋出`ReferenceError`的錯誤。
 
