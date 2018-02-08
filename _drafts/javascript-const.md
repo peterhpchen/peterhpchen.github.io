@@ -89,3 +89,32 @@ obj = {
   name: 'oh'
 };  // TypeError: invalid assignment to const `obj'
 ```
+
+這個例子以Array及Object為例，我們可以看到arr用push增加元素或是obj改變name都不會拋出例外，但是對於const物件本身做修改的話就會出錯。
+
+## 迴圈中的const
+
+現在我們知道const是一個不可以重新賦值的變數，那它可以用在迴圈中嗎? 我們看看下面的例子:
+
+```javascript
+for (const i = 0; i < 10; i++) {
+  console.log(i); // 0
+} // TypeError: invalid assignment to const `i'
+```
+
+看這個例子會發現，在第一次巡覽時(i=0)是正確的，會輸出0，但是在第二次巡覽時因為i++試圖改變const變數，所以拋出了例外。
+
+上面的例子我們知道const不能用在for中，那for of呢?
+
+```javascript
+var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+for (const i of arr) {
+  console.log(i); // 0 1 2 3 4 5 6 7 8 9
+}
+```
+
+因為for of會在每次巡覽中重新宣告一個新的const i變數，因此每次的巡覽都是不同的變數，也沒有像i++這樣改動const變數，所以只要在for區塊內沒有動到i變數就會是合法的操作。
+
+## 比較表
+
+綜合之前的文章
