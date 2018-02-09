@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "JavaScript中的const"
+date:   2018-02-09 23:00:00 +0800
 categories: javascript
 ---
 
@@ -121,18 +122,22 @@ for (const i of arr) {
 
 ### 非區塊級別宣告(var) vs 區塊級別宣告(let/const)
 
-|Difference|var|let/const|
-|-------|--------------------|---------------------|
-|Scope|Hoisting|Block Bindings(TDZ)|
-|Redeclaration|Yes|No|
-|Global|Yes|No|
+這裡以**作用域**、**重複宣告**及**全域**的特性做比較。
+
+||var|let/const|
+|-|-|-|
+|**Scope**|Hoisting|Block Bindings(TDZ)|
+|**Redeclaration**|Yes|No|
+|**Global**|Yes|No|
 
 ### let vs const
 
-|Difference|let|const|
-|-------|--------------------|---------------------|
-|Initialization|Optional|Necessary|
-|Reassign|Yes|No(except value of objects)|
+這裡以**初始化**及**重複賦值**的兩個特性做比較。
+
+||let|const|
+|-|-|-|
+|**Initialization**|Optional|Necessary|
+|**Reassign**|Yes|No(except value of objects)|
 
 ## 結語
 
