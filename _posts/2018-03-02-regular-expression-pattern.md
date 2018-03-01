@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "怎麼寫正規表達式(Regular Expressions)?"
-date:   2018-01-19 00:18:06 +0800
+date:   2018-03-02 01:53:06 +0800
 categories: regular-expression
 ---
 
@@ -26,9 +26,9 @@ categories: regular-expression
 * 反斜線(backslash)
 * 邊界(Boundaries)
 * 多重選項(或)
-* 群組及回溯參照(Grouping and back references)
 * 數量(Quantifiers)
 * 判斷(Assertions)
+* 群組及回溯參照(Grouping and back references)
 
 ### 字元組
 
@@ -206,3 +206,140 @@ categories: regular-expression
 **符合`x`或`y`**，例如`/green|red/`在`green apple`中符合`green`，在`red apple`中符合`red`。
 
 在寫的時候需要注意順序，**越前面的條件被符合後就不會再去符合之後的條件**，例如對字串`b`做`a*|b`會因為符合了empty而傳回空字串，如果使用`b|a*`就會先符合`b`而傳回`b`字母。
+
+### 數量
+
+符合某個字元(字串)多次的條件。
+
+#### `x{n}`
+
+**符合重複`x`恰好`n`次的字串**。
+
+例如用`a{2}`不會符合`candy`中的`a`，但會符合`caandy`中的`aa`。
+
+#### `x{n,}`
+
+**符合重複`x`至少`n`次的字串**。
+
+例如`a{2,}`會符合`aa`、`aaaa`、`aaaaa`，但不會符合`a`。
+
+#### `x{n,m}`
+
+**符合重複`x`至少`n`次至多`m`次的字串**。
+
+例如`a{1,3}`會符合`a`、`aa`、`aaa`，但不會符合`aaaa`。
+
+#### `x*`
+
+**符合`x`任意數量的字串**，是`x{0,}`的簡寫。
+
+例如使用`/bo*/`，在`A ghost booooed`中會找到`boooo`，在`A bird warbled`中會找到`b`，但`A goat grunted`找不到符合字串。
+
+#### `x+`
+
+**符合`x`至少1次的字串**，是`x{1,}`的簡寫。
+
+例如使用`/a+/`，在`candy`中找的到`a`，在`caaaaaaandy`中找的到所有`a`所組成的字串，但是在`cndy`中找不到符合條件。
+
+#### `x?`
+
+**符合`x`零到一次的字串**，是`x{0,1}`的簡寫。
+
+例如使用`/e?le?/`，在`angel`中找的到`el`，在`angle`中找到`le`的字串，在`oslo`中找到`l`字串。
+
+#### `xQ?`
+
+`Q`為數量特殊字元(`{n}`、`{n,}`、`{n,m}`、`*`、`+`、`?`)。
+
+符合`Q`定義的數量的`x`的字串，但是符合最少字串(non-greedy)。
+
+在沒有加`?`時，會是取符合最多數的結果，加了`?`後會是**取符合最短字串的結果**。
+
+例如`<.*>`會符合`<foo> <bar>`中的`<foo> <bar>`，但是`<.*?>`會取到`<foo>`。
+
+### 判斷
+
+利用判斷式來決定要不要匹配條件。
+
+#### `x(?=y)`
+
+只有**在`x`後面緊跟著`y`時才會取得`x`**。
+
+例如`/Jack(?=Sprat)/`一定要`Jack`後面緊接著`Sprat`才會取得`Jack`，而`Sprat`不會在結果裡面。
+
+#### `x(?!y)`
+
+只有在`x`後面沒有緊跟著`y`時才會取得`x`。
+
+例如`/\d+(?!\.)/`會對應到`3.141`中的`141`，但不會對到`3`。
+
+### 群組及回溯參照
+
+群組有下面這些功能:
+
+* 使**數量特殊字元**作用於**字串**上。
+* 群組中匹配的字串會**放入結果**中。
+* 群組中匹配的字串可以**回溯參照**。
+
+#### `(x)`
+
+**取得符合`x`的字串並且放入結果中**。
+
+例如: `/(foo) (bar)/`在`foo bar`中會完整符合`foo bar`(放於結果陣列`[0]`中)，及群組1的`foo`(放於結果陣列`[1]`中)和群組2的`bar`(放於結果陣列`[2]`中)。
+
+如果在其後**使用數量特殊字元會作用於整個群組中的字串**上。
+
+例如`/foo{1,2}/`後面的`{1,2}`的效果就只有在最後一個`o`才有效果，而`/(foo){1,2}/`則可以抓出重複`foo`一到兩次的結果。
+
+#### `(?:x)`
+
+**取得符合`x`的字串但不放入結果中**。
+
+如果在其後**使用數量特殊字元會作用於整個群組中的字串**上。
+
+例如`/(foo){1,2}/`可以抓出重複`foo`一到兩次的結果，但我們可能只是要做匹配，並不想要取得此群組結果，所以可以用`/(?:foo){1,2}/`使數量特殊字元作用於群組上，但並不會將其放入結果陣列中。
+
+#### `\n`
+
+用來表示**回溯參照**: **符合結果陣列中第`n`個結果**。
+
+例如用`/apple(,)\sorange\1/`查找`apple, orange, cherry, peach.`，因為`\1`會符合結果陣列中的`[1]`，而`[1]`是存放`,`字元(`[0]`是存放完整結果)，之後的`\s`會符合空白字元，所以會符合`apple, orange,`。
+
+再比對html文檔時可以看出回溯參照的優點，例如使用`<(\w+)>(.+)<\/\w+>`比對`<b>Hello</div>`會成功，但html的起始及結束tag要是相同的，這樣的結果不符合需求，而使用`<(\w+)>(.+)<\/\1>`可以排除這種起始及結束tag不同的情況。
+
+## 旗標
+
+正規表達式中的旗標可以設定搜尋的方式，它提供了下面幾個旗標:
+
+* g: 搜尋完整的內容找出全部的結果。
+* m: 用^或$的效果在換行時也有用。
+* i: 不分大小寫。
+
+### 範例
+
+下面這個範例演繹各個旗標的功能。
+
+<p data-height="265" data-theme-id="0" data-slug-hash="zRJLZa" data-default-tab="js,result" data-user="peterhpchen" data-embed-version="2" data-pen-title="regular expression flags" class="codepen">See the Pen <a href="https://codepen.io/peterhpchen/pen/zRJLZa/">regular expression flags</a> by Peter Chen (<a href="https://codepen.io/peterhpchen">@peterhpchen</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+* `/[a-z]+/`: 因為沒有`g`旗標，所以取得結果後馬上結束查找。
+* `/[a-z]+/g`: 加上`g`旗標會將查找所有內容。
+* `/^[a-z]+/g`: 因為加了`^`開頭的條件，所以只會符合整個內容的開頭字串。
+* `/^[a-z]+/gm`: 加了`m`旗標後`^`及`$`也會作用於換行字元上。
+* `/^[a-z]+/gim`: 加上`i`旗標可以不分大小寫查找。
+
+## 結語
+
+正規表達式是個很強大的功能，用來查找字串非常的方便，但可讀性低，需要記憶的特殊字元多，常常讓開發者忽略了這個好用的功能，在此整理了表達式的寫法，使用分類來加強記憶，希望可以增加開發上的使用頻率。
+
+## 投影片
+
+在讀書會中使用的投影片:
+
+<iframe src="//slides.com/peter3598768/regular-expression-pattern/embed" width="576" height="420" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+## 參考
+
+* [regex101](https://regex101.com/)
+* [MDN:Regular_Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+* [MDN:RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
