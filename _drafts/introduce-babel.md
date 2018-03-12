@@ -90,3 +90,29 @@ var helloFunc = function (input) {
 
 ## `.babelrc`
 
+各位不知道是否注意到，在加入了**Plugins**後，指令變得很長，這還只是設置了三個**Plugins**的情況，如果之後要設置更多的**Plugins**那我們的設置會變得相當的困難，所幸**BABEL**有提供`config`檔的功能，我們可以將設定全部放到設定檔中。
+
+1. 於根目錄中(跟`package.json`同個資料夾)建立`.babelrc`
+
+```js
+{
+    "plugins": [
+        "transform-es2015-arrow-functions",
+        "transform-es2015-block-scoping",
+        "transform-es2015-template-literals"
+    ]
+}
+```
+
+這邊我們設置**plugins**的載入。
+
+2. 刪除指令中的`--plugins`
+
+```js
+"scripts": {
+  "build": "babel src -d dist"
+  ...
+},
+```
+
+存檔執行後我們一樣可以得到轉換為**ES5**的程式碼。
