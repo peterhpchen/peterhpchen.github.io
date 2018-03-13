@@ -116,3 +116,69 @@ var helloFunc = function (input) {
 ```
 
 存檔執行後我們一樣可以得到轉換為**ES5**的程式碼。
+
+## Presets
+
+使用Plugins對Babel做設置時，每次要轉換一種語法就必須要載入一種Plugins，每次的設置都是一個麻煩，而且有新的ECMAScript標準釋出，就要自己手動再加入，真的很不方便，為此Babel提供了Presets的設置方式，載入特定目標的Preset時會將相關的Plugins都包含進來，使得載入一個Preset就可以使用整組語法轉換的Plugins。
+
+Babel目前提供三個Presets:
+
+* env: 依據開發者目標環境的需求做轉換。
+* react: React相關(JSX)的轉換。
+* flow: Flow相關的轉換。
+
+### env
+
+**env**的轉換是為了可以在目標的環境(**Browsers**或是**Node.js**)順利地使用較新的語法，例如我們可以直接在專案下撰寫**ES2017**的語法，在經由**env**中載入的**Plugins**做轉換。
+
+#### 查看包含的Plugins
+
+我們可以在[plugin-features.js](https://github.com/babel/babel-preset-env/blob/master/data/plugin-features.js)中找到**env**中所包含的**Plugins**。
+
+#### 使用方式
+
+1. 安裝**env**的**preset**
+
+```bash
+npm install --save-dev babel-preset-env
+```
+
+2. 設置.babelrc
+
+```js
+{
+    "presets": ["env"]
+}
+```
+
+這樣的設置啟用了**env**預設的設定，會將所有**ES2015**、**ES2016**、**ES2017**相關的語法做轉換。
+
+下`npm run build`的指令後我們可以得到轉換為**ES5**後的程式碼。
+
+#### 指定轉換後的目標環境
+
+env也可以指定專案所需支援的環境來做轉換，如果你只要支援Chrome或是Fire Fox這類的現代化瀏覽器，由於這些瀏覽器已經支援大部分的ES2015語法，所以就可以使用較少的Plugins來做轉換，節省花費。
+
+env中可以設置node或是browsers的環境目標。
+
+##### 瀏覽器環境
+
+指定瀏覽器環境的方式是使用[browserslist](https://github.com/ai/browserslist)，它是使用查詢字串來設定目標瀏覽器。
+
+例如我們只想要支援最新的Chrome，我們可以在.babelrc中做下面的設定:
+
+```js
+{
+    "presets": [
+        [
+            "env", {
+                "targets": {
+                    "browsers": ["last 1 Chrome versions"]
+                }
+            }
+        ]
+    ]
+}
+```
+
+這樣我們得到的執行結果就不會經過Plugins的轉換，因為Chrome已經支援這些語法了。
