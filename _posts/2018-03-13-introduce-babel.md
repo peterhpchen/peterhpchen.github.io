@@ -1,30 +1,31 @@
 ---
 layout: post
 title:  "Babel介紹"
+date:   2018-03-13 22:43:00 +0800
 categories: javascript babel
 ---
 
-> 每次ECMAScript新標準出來時，看著酷炫的語法卻礙於瀏覽器支援問題而確步的我，在知道了Babel這個工具可以將最先進的語法轉為每個瀏覽器都通用的舊語法時，真的是像看到救世主一樣，感動的說不出話來。
+> 每次ECMAScript新標準出來時，看著酷炫的語法卻礙於瀏覽器支援問題而怯步的我，在知道了Babel這個工具可以將最先進的語法轉為每個瀏覽器都通用的舊語法時，真的是像看到救世主一樣，感動的說不出話來。
 
 Babel是一個可以將工程師所撰寫的程式經由載入的Plugins來轉換為目標語法，也可以用Polyfill來使我們可以用新的globals(ex: `Promise`)。
 
 ## 安裝
 
-Babel的[安裝方式](https://babeljs.io/docs/setup/)有很多種，在專案中一般會使用像是Webpack這樣的bundler工具引入Babel，但會牽扯到Webpack的設置，本文想聚焦在Babel的概念上，所以使用**CLI**來做安裝。
+Babel的[安裝方式](https://babeljs.io/docs/setup/)有很多種，在專案中一般會使用像是**Webpack**這樣的bundler工具引入Babel，但會牽扯到Webpack的設置，本文想聚焦在Babel的概念上，所以使用**CLI**來做安裝。
 
-1. 建立`package.json`，本文只是練習用法，直接使用預設的設定
+* 建立`package.json`，本文只是練習用法，直接使用預設的設定
 
 ```bash
 npm init -y
 ```
 
-2. 安裝`babel-cli`
+* 安裝`babel-cli`
 
 ```bash
 npm install --save-dev babel-cli
 ```
 
-3. 新增`src`資料夾，在裡面撰寫`index.js`
+* 新增`src`資料夾，在裡面撰寫`index.js`
 
 ```js
 const helloFunc = (input) => { console.log(`Hello ${input}`)};
@@ -32,7 +33,7 @@ const helloFunc = (input) => { console.log(`Hello ${input}`)};
 
 這個例子裡用到三個ES2015的語法: **const**、**arrow function**和**template string**，本文將以這三個語法來展示Babel的轉換功能。
 
-4. 在`package.json`中新增`build`指令
+* 在`package.json`中新增`build`指令
 
 ```js
 "scripts": {
@@ -41,7 +42,7 @@ const helloFunc = (input) => { console.log(`Hello ${input}`)};
 },
 ```
 
-5. 執行`build`指令
+* 執行`build`指令
 
 ```bash
 npm run build
@@ -55,7 +56,7 @@ npm run build
 
 上一節的例子中執行`babel`的指令時也經過這三個步驟，而沒有轉換的原因就是出在第二步的**transforming**，**BABEL**的轉換步驟是仰賴各個**plugins**提供轉換能力，我們的程式中沒有載入任何的**Plugins**，所以轉換時並不會做任何事情，現在我們來加入各個語法的**Plugins**。
 
-1. 載入Plugins
+* 載入Plugins
 
 ```bash
 npm install --save-dev babel-plugin-transform-es2015-arrow-functions
@@ -65,7 +66,7 @@ npm install --save-dev babel-plugin-transform-es2015-template-literals
 
 上面這三個Plugins分別處理程式碼中的三個語法特性**arrow function**、**const**和**template string**。
 
-2. 修改`build`指令
+* 修改`build`指令
 
 ```js
 "scripts": {
@@ -76,7 +77,7 @@ npm install --save-dev babel-plugin-transform-es2015-template-literals
 
 用`--plugins`參數設置要使用的**plugins**。
 
-3. 執行`build`指令
+* 執行`build`指令
 
 執行之後我們會在`dist`中的`index.js`中看到轉換的結果。
 
@@ -92,7 +93,7 @@ var helloFunc = function (input) {
 
 各位不知道是否注意到，在加入了**Plugins**後，指令變得很長，這還只是設置了三個**Plugins**的情況，如果之後要設置更多的**Plugins**那我們的設置會變得相當的困難，所幸**BABEL**有提供`config`檔的功能，我們可以將設定全部放到設定檔中。
 
-1. 於根目錄中(跟`package.json`同個資料夾)建立`.babelrc`
+* 於根目錄中(跟`package.json`同個資料夾)建立`.babelrc`
 
 ```js
 {
@@ -106,7 +107,7 @@ var helloFunc = function (input) {
 
 這邊我們設置**plugins**的載入。
 
-2. 刪除指令中的`--plugins`
+* 刪除指令中的`--plugins`
 
 ```js
 "scripts": {
@@ -137,13 +138,13 @@ Babel目前提供三個Presets:
 
 #### 使用方式
 
-1. 安裝**env**的**preset**
+* 安裝**env**的**preset**
 
 ```bash
 npm install --save-dev babel-preset-env
 ```
 
-2. 設置.babelrc
+* 設置`.babelrc`
 
 ```js
 {
@@ -157,15 +158,15 @@ npm install --save-dev babel-preset-env
 
 #### 指定轉換後的目標環境
 
-env也可以指定專案所需支援的環境來做轉換，如果你只要支援Chrome或是Fire Fox這類的現代化瀏覽器，由於這些瀏覽器已經支援大部分的ES2015語法，所以就可以使用較少的Plugins來做轉換，節省花費。
+**env**也可以指定專案所需支援的環境來做轉換，如果你只要支援Chrome或是Firefox這類的現代化瀏覽器，由於這些瀏覽器已經支援大部分的**ES2015**語法，所以就可以使用較少的Plugins來做轉換，節省花費。
 
-env中可以設置node或是browsers的環境目標。
+**env**中可以設置**node**或是**browsers**的環境目標。
 
-##### 瀏覽器環境
+#### 瀏覽器環境
 
 指定瀏覽器環境的方式是使用[browserslist](https://github.com/ai/browserslist)，它是使用查詢字串來設定目標瀏覽器。
 
-例如我們只想要支援最新的Chrome，我們可以在.babelrc中做下面的設定:
+例如我們只想要支援最新的Chrome，我們可以在`.babelrc`中做下面的設定:
 
 ```js
 {
@@ -181,4 +182,22 @@ env中可以設置node或是browsers的環境目標。
 }
 ```
 
-這樣我們得到的執行結果就不會經過Plugins的轉換，因為Chrome已經支援這些語法了。
+這樣我們得到的執行結果就不會經過**Plugins**的轉換，因為**Chrome**的最新版本已經支援這些語法了。
+
+註: 可以由[browserl.ist](http://browserl.ist/)來檢查是否查詢語法符合自己的環境。
+
+## 結語
+
+本文透過實作的方式來講解Babel的使用方式，雖然講的不深，但對於剛學習Babel的人應該會有幫助，希望可以給剛入門的人少走一些歪路。
+
+## 範例程式
+
+* [GitHub](https://github.com/peterhpchen/babel-example)
+
+## 簡報
+
+<iframe src="//slides.com/peter3598768/use-next-generation-javascript/embed" width="576" height="420" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+## 參考
+
+* [BABEL](https://babeljs.io/)
