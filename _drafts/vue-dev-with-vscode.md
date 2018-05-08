@@ -1,3 +1,8 @@
+## Version
+
+* vue: 2.5.2
+* vue-loader: 13.3.0
+
 ## Extensions
 
 * [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
@@ -13,7 +18,11 @@ Use [vue-cli](https://github.com/vuejs/vue-cli) to initial project.
 * Prettier([reference](https://alligator.io/vuejs/vue-eslint-prettier/))
 
 ```bash
+# prettier
 npm install --save-dev prettier eslint-plugin-prettier eslint-config-prettier
+
+# pug
+npm install --save-dev pug
 ```
 
 ## eslintrc.js
