@@ -109,3 +109,21 @@ export {
 這裡我們對外公布了Datasource、QueryCtrl及ConfigCtrl這三個必要的Class，而Class都是空的。
 
 ## 使用webpack建置專案
+
+module.ts跟plugin.json就是插件的基礎構成，雖然現在各個功能都還沒有實作，不過已經可以編譯成Grafana的插件了，因此這節會使用webpack建置且部署到Grafana上。
+
+### 建立webpack.config.js
+
+#### 設定專案的輸入及輸出
+
+輸入webpack的資料夾為src，要將建置好的程式碼放於dist資料夾下:
+
+```js
+
+```
+
+#### 將plugin.json移至dist資料夾
+
+由於Grafana是以plugin專案下的dist資料夾來建置，所以需要將plugin.json複製至dist中。
+
+* 安裝copy-webpack-plugin: npm install copy-webpack-plugin --save-dev
