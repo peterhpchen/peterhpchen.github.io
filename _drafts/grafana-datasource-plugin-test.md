@@ -96,7 +96,7 @@ module.exports = {
 npm run test
 ```
 
-![TestResult](/assets/2018-08-12-grafana-datasource-plugin-test/TestResult.png)
+![TestResult](/assets/2018-08-12-grafana-datasource-plugin-test/TestResult.PNG)
 
 執行後可以看到所有的測試都通過。
 
@@ -181,7 +181,7 @@ module.exports = {
 
 這時執行測試的話，新增的測試會出錯。
 
-![TestFail](/assets/2018-08-12-grafana-datasource-plugin-test/TestFail.png)
+![TestFail](/assets/2018-08-12-grafana-datasource-plugin-test/TestFail.PNG)
 
 原因是`module.ts`的`QueryCtrl`並不是`QueryCtrl`的實體，因為其沒有繼承`QueryCtrl`，要讓測試通過就要修改程式。
 
@@ -197,7 +197,7 @@ class DemoQueryCtrl extends QueryCtrl {}
 
 這時執行測試就會成功了。
 
-![TestPass](/assets/2018-08-12-grafana-datasource-plugin-test/TestPass.png)
+![TestPass](/assets/2018-08-12-grafana-datasource-plugin-test/TestPass.PNG)
 
 ### Webpack建置失敗
 
@@ -221,7 +221,7 @@ module.exports = {
 
 在排除`app/plugins/sdk`後可以正常建置了，但是在部署後Grafana載入Plugin時會報錯。
 
-![PluginError](/assets/2018-08-12-grafana-datasource-plugin-test/PluginError.png)
+![PluginError](/assets/2018-08-12-grafana-datasource-plugin-test/PluginError.PNG)
 
 從錯誤訊息可以知道`app/plugins/sdk`引入失敗，這是因為webpack在打包時預設會用全域的方式引入外部module，可是在Grafana中並不是用全域的方式，因此需要將建置的module引入外部module的方式改為`amd`。
 
