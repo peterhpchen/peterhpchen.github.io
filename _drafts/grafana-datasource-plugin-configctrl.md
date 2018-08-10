@@ -1,4 +1,4 @@
-上次已經開發了一個最基本的Grafana datasource plugin了，這次要為這個插件增加設置頁面的view及controller。
+上次已經開發了一個最基本的Grafana datasource plugin，也可以寫測試程式了，這次要為這個插件增加設置頁面的view及controller，本文會使用TDD的方式做開發，所以會以測試跟程式交互的方式來進行。
 
 ## Config頁面
 
