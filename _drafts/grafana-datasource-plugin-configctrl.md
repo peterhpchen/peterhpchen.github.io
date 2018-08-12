@@ -14,5 +14,22 @@ Config頁面是用來設置datasource級別下的設定，例如說這個datasou
 
 ![ConfigPage](/assets/2018-08-10-grafana-datasource-plugin-configctrl/ConfigPage.png)
 
-## 建立config.html
+## 建立客製的Datasource設定頁面
 
+接著要撰寫ConfigCtrl的HTML，在這之前有兩個東西要先介紹，Grafana提供的styles及components。
+
+### 內建的components
+
+有些設定是大部分的datasource都需要的，像是連線設定，Grafana就會將它包成components，方便不同的插件可以重複利用，我們也可以在自己的插件上使用這些components做開發。
+
+#### datasource-http-settings
+
+這個datasource-http-settings裡面有包好連線時常用的設定，它的定義在[ds_edit_ctrl.ts](https://github.com/grafana/grafana/blob/master/public/app/features/plugins/ds_edit_ctrl.ts)中，有提供三個參數:
+
+* current: 設定資料的model。
+* suggestUrl: 建議的連線URL。
+* noDirectAccess: 不開啟Access的選項，一律使用Proxy連線。
+
+### 內建的styles
+
+Grafana有提供styles給客製的Plugin使用，使用內建的styles不僅可以使得外觀像是原生的功能一樣，也可以在視窗做放大縮小時做對應的配置，十分的方便。
