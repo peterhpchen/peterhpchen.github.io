@@ -1,4 +1,4 @@
-上次已經開發了一個最基本的Grafana datasource plugin，也可以寫測試程式了，這次要為這個插件增加設置頁面的view及controller，本文會使用TDD的方式做開發，所以會以測試跟程式交互的方式來進行。
+上次已經開發了一個最基本的Grafana datasource plugin，也可以寫測試程式了，這次要為這個插件增加設置頁面的view及controller。
 
 ## Config頁面
 
@@ -13,6 +13,24 @@ Config頁面是用來設置datasource級別下的設定，例如說這個datasou
 下面藍色框中的就是在ConfigCtrl中要開發的頁面，可以看到主要是連線、驗證還有全域變數的設定。
 
 ![ConfigPage](/assets/2018-08-10-grafana-datasource-plugin-configctrl/ConfigPage.png)
+
+## Controller
+
+ConfigCtrl是一個AngularJS的Controller，它有一個View，現在先來看Controller要怎麼寫。
+
+### templateUrl
+
+在Controller的Class中，static的templateUrl是拿來定義這個Controller的View是那隻.html檔案。
+
+```ts
+// src/config_ctrl.ts
+
+export default class DemoConfigCtrl {
+  static templateUrl: string = 'partials/config.html';
+}
+```
+
+為了寫得更加結構化，將DemoConfigCtrl從module.ts中獨立出來變成src/config_ctrl.ts，在測試的時候也只要引入這個檔案就可以測試Config Controller了。
 
 ## 建立客製的Datasource設定頁面
 
