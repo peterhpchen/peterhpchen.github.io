@@ -20,7 +20,7 @@ ConfigCtrl是一個AngularJS的Controller，它有一個View，現在先來看Co
 
 ### templateUrl
 
-在Controller的Class中，static的templateUrl是拿來定義這個Controller的View是那隻.html檔案。
+在Controller的Class中，static的templateUrl是拿來定義這個Controller的View是哪隻html檔案。
 
 ```ts
 // src/config_ctrl.ts
@@ -31,6 +31,14 @@ export default class DemoConfigCtrl {
 ```
 
 為了寫得更加結構化，將DemoConfigCtrl從module.ts中獨立出來變成src/config_ctrl.ts，在測試的時候也只要引入這個檔案就可以測試Config Controller了。
+
+### model
+
+config的資料放在this.current中，在設定完成後，current中的property會帶到datasource的instanceSettings裡，就可以使用config的設定來取得資料。
+
+#### jsonData
+
+this.current中是存放內建的components(例如datasourceHttpSettings)的資料，而this.current.jsonData才是存放客製的設定資料。
 
 ## 建立客製的Datasource設定頁面
 
