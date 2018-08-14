@@ -14,32 +14,6 @@ Config頁面是用來設置datasource級別下的設定，例如說這個datasou
 
 ![ConfigPage](/assets/2018-08-10-grafana-datasource-plugin-configctrl/ConfigPage.png)
 
-## Controller
-
-ConfigCtrl是一個AngularJS的Controller，它有一個View，現在先來看Controller要怎麼寫。
-
-### templateUrl
-
-在Controller的Class中，static的templateUrl是拿來定義這個Controller的View是哪隻html檔案。
-
-```ts
-// src/config_ctrl.ts
-
-export default class DemoConfigCtrl {
-  static templateUrl: string = 'partials/config.html';
-}
-```
-
-為了寫得更加結構化，將DemoConfigCtrl從module.ts中獨立出來變成src/config_ctrl.ts，在測試的時候也只要引入這個檔案就可以測試Config Controller了。
-
-### model
-
-config的資料放在this.current中，在設定完成後，current中的property會帶到datasource的instanceSettings裡，就可以使用config的設定來取得資料。
-
-#### jsonData
-
-this.current中是存放內建的components(例如datasourceHttpSettings)的資料，而this.current.jsonData才是存放客製的設定資料。
-
 ## 建立客製的Datasource設定頁面
 
 接著要撰寫ConfigCtrl的HTML，在這之前有兩個東西要先介紹，Grafana提供的styles及components。
@@ -54,8 +28,82 @@ this.current中是存放內建的components(例如datasourceHttpSettings)的資�
 
 * current: 設定資料的model。
 * suggestUrl: 建議的連線URL。
-* noDirectAccess: 不開啟Access的選項，一律使用Proxy連線。
+* noDirectAccess: true: 不開啟Access的選項，一律使用Proxy連線，false: 開啟Access選項。
 
 ### 內建的styles
 
 Grafana有提供styles給客製的Plugin使用，使用內建的styles不僅可以使得外觀像是原生的功能一樣，也可以在視窗做放大縮小時做對應的配置，十分的方便。
+
+### config.html
+
+範例的config使用datasource-http-settings及一個客製的設定欄位來演繹。
+
+```html
+<!-- src/partials/config.html -->
+<datasource-http-settings
+  current="ctrl.current"
+  suggest-url="http://localhost:8080"
+></datasource-http-settings>
+
+<h3 class="page-heading">Custom Header</h3>
+<div class="gf-form">
+  <span class="gf-form-label width-7">Custom Input</span>
+  <input class="gf-form-input max-width-21" type="text" ng-model='ctrl.current.jsonData.customInput' placeholder="custom input" required></input>
+</div>
+```
+
+* 每個不同的Controller使用的View都是放在src/partials資料夾。
+* 使用datasource-http-settings讓使用者設定連線、驗證。
+* config的資料model為ctrl.current(在Controller中是this.current)，只有ctrl.current的資料會被Grafana帶到其他地方(ex: 查詢頁面)做使用。
+* 客製欄位custom input。
+* page-heading class: 大項的標題樣式。
+* gf-form class: 表單中每欄的樣式。
+* gf-form-label: 欄位的標題樣式。
+* gf-form-input: 輸入框的樣式。
+
+## Controller
+
+ConfigCtrl是一個AngularJS的Controller，它有一個View，現在來看Controller要怎麼寫。
+
+### templateUrl
+
+在Controller的Class中，static的templateUrl是拿來定義這個Controller的View是哪隻html檔案。
+
+```ts
+// src/config_ctrl.ts
+
+export default class DemoConfigCtrl {
+  static templateUrl: string = 'partials/config.html';
+}
+```
+
+為了寫得更加結構化，將DemoConfigCtrl從module.ts中獨立出來變成src/config_ctrl.ts。
+
+### model
+
+config的資料放在this.current中，在設定完成後，current中的property會帶到datasource的instanceSettings裡，就可以使用config的設定來取得資料。
+
+#### jsonData
+
+this.current中是存放內建components(例如datasourceHttpSettings)的資料，而this.current.jsonData才是存放客製的設定資料。
+
+### 建構子
+
+在Controller的建構子中要設定預設值。
+
+```ts
+// src/config_ctrl.ts
+
+export default class DemoConfigCtrl {
+  ...
+  current: {
+    jsonData: any
+  };
+  
+  constructor() {
+    this.current.jsonData.customInput = this.current.jsonData.customInput || 'default';
+  }
+}
+```
+
+* customInput的預設值是default。
