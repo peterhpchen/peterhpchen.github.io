@@ -13,7 +13,7 @@ Cypress 是個 E2E 的測試框架，可以寫測試腳本模擬使用者操作 
 
 ### 與之前的測試方式做比較
 
-![compare](../assets/2018-11-23-cypress-install/compare.PNG)
+![compare](/assets/2018-11-23-cypress-install/compare.PNG)
 
 在 Cypress 之前，要做 E2E 測試會需要使用多個不同的工具做集成，但 Cypress 已經將所有 E2E 測試需要的工具包在一起了，因此使用 Cypress 時不用自己設置這些工具的設定，只要載入 Cypress 然後使用就好。
 
@@ -73,7 +73,7 @@ npm install eslint-plugin-cypress --save-dev
 
 在安裝完 Cypress 後會在專案跟路徑中出現一個 cypress 的資料夾已經 cypress.json 的檔案:
 
-![structure](../assets\2018-11-23-cypress-install\structure.png)
+![structure](/assets/2018-11-23-cypress-install/structure.png)
 
 ```bash
 .
@@ -89,7 +89,7 @@ npm install eslint-plugin-cypress --save-dev
 
 使用 `npm run cypress:open` 開啟 Test Runner 後會看到下面的畫面:
 
-![runner](../assets\2018-11-23-cypress-install\runner.PNG)
+![runner](/assets/2018-11-23-cypress-install/runner.PNG)
 
 這些檔案會是 cypress 資料夾中的 integration 資料夾裡的檔案，可以使用資料夾將相關的資料做分類。
 
@@ -99,11 +99,11 @@ npm install eslint-plugin-cypress --save-dev
 
 Cypress 會對測試中的每一個動作做紀錄，我們可以在測試結束時去看這些紀錄，如果有錯誤的話也可以去看是錯在哪個地方，接下來使用 [cypress-example-kitchensink](https://github.com/cypress-io/cypress-example-kitchensink) 來示範如何使用 Cypress 來除錯。
 
-![dmeo](../assets\2018-11-23-cypress-install\dmeo.gif)
+![dmeo](/assets/2018-11-23-cypress-install/dmeo.gif)
 
 上圖是執行測試時的畫面， Cypress 會將每個步驟都記錄起來，在執行完後可以按下其中一個選取元素，會如下圖:
 
-![pinelement](../assets\2018-11-23-cypress-install\pinelement.PNG)
+![pinelement](/assets/2018-11-23-cypress-install/pinelement.PNG)
 
 在右邊的畫面上會選到對應的元素。
 
@@ -111,13 +111,13 @@ Cypress 會對測試中的每一個動作做紀錄，我們可以在測試結束
 
 當你選到動作時，像是輸入字串或是按下按鈕， Cypress 會幫我們紀錄動作前後的截圖，我們可以用畫面下方的 before 及 after 去切換:
 
-![snapshot](../assets\2018-11-23-cypress-install\snapshot.png)
+![snapshot](/assets/2018-11-23-cypress-install/snapshot.png)
 
 ### Console
 
 在 Console 中會顯示被釘選的元素的詳細資料:
 
-![console](../assets\2018-11-23-cypress-install\console.png)
+![console](/assets/2018-11-23-cypress-install/console.png)
 
 ## 結語
 
