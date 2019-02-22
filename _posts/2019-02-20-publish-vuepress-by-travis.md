@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "使用 Travis CI 部署 VuePress 靜態網頁至 Github Page"
+date:   2019-02-20 21:00:00 +0800
+categories: tarvis-ci, vuepress, github-page
+---
+
 > 本文介紹如何使用 Travis CI 將 VuePress 的靜態網頁部署到 Github Page 上。
 
 ## VuePress
@@ -57,7 +64,7 @@ module.exports = {
 
 在專案的 Settings 中將 Github Page 設置如下圖:
 
-![github-page-setting](/assets/2019-02-20-2019-02-20-publish-vuepress-by-travis/github-page-setting.png)
+![github-page-setting](/assets/2019-02-20-publish-vuepress-by-travis/github-page-setting.png)
 
 * Source 調整為 gh-pages branch : Travis 會將建置結果部署至 gh-pages 分支中，故這裡要設定為 gh-pages 。
 
@@ -65,7 +72,7 @@ module.exports = {
 
 在使用者的設定中，將 Travis 的設定加入目前的專案:
 
-![tarvis-setting](/assets/2019-02-20-2019-02-20-publish-vuepress-by-travis/travis-setting.png)
+![tarvis-setting](/assets/2019-02-20-publish-vuepress-by-travis/travis-setting.png)
 
 ### 設定 github token
 
@@ -75,7 +82,7 @@ module.exports = {
 
 * 在 Travis 的設置中加上 GITHUB_TOKEN 這個環境變數:
 
-![travis-github-token](/assets/2019-02-20-2019-02-20-publish-vuepress-by-travis/travis-github-token.png)
+![travis-github-token](/assets/2019-02-20-publish-vuepress-by-travis/travis-github-token.png)
 
 ### 建立 `.travis.yml`
 
