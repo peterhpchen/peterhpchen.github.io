@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 Travis CI 部署 VuePress 靜態網頁至 Github Page"
-date:   2019-02-20 21:00:00 +0800
-categories: tarvis-ci, vuepress, github-page
+title: "使用 Travis CI 部署 VuePress 靜態網頁至 Github Page"
+date: 2019-02-20 21:00:00 +0800
+tags: [tarvis-ci, vuepress, github-page]
 ---
 
 > 本文介紹如何使用 Travis CI 將 VuePress 的靜態網頁部署到 Github Page 上。

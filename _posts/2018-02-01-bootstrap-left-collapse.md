@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "如何用Bootstrap做左導覽列"
-date:   2018-02-01 23:00:00 +0800
-categories: bootstrap
+title: "如何用Bootstrap做左導覽列"
+date: 2018-02-01 23:00:00 +0800
+tags: bootstrap
 ---
 
 > Bootstrap上有個navbar的功能，裡面提供了一個[External content](https://getbootstrap.com/docs/4.0/components/navbar/#external-content)的功能讓我們可以將內容先隱藏起來，等到使用者點擊按鈕觸發後才會以動畫的方式拉開內容，這樣的動畫呈現是使用了Bootstrap它自己的[Collapse元件](https://getbootstrap.com/docs/4.0/components/collapse/)，但是Collapse只提供上下的展開，並沒有左右伸縮的功能，這讓我很苦惱，因為需求是要做從左邊展開的導覽列，[自己刻一個](https://codepen.io/peterhpchen/pen/qppNwR)是沒有問題，但既然Bootstrap都有提供Collapse以及跟按鈕的整合了，不用一下說不過去，這篇就來看看要怎麼使用Bootstrap做出一個可以有轉換動畫做隱藏及顯示的左清單列吧。

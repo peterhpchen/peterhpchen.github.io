@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "JavaScript中的const"
-date:   2018-02-09 23:00:00 +0800
-categories: javascript
+title: "JavaScript中的const"
+date: 2018-02-09 23:00:00 +0800
+tags: javascript
 ---
 
 > const宣告的變數是區塊級別的宣告，一開始就要設定初始值，在存在的scope中不能再重新賦值。

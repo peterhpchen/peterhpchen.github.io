@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 postMessage 由嵌入頁 ( IFrame ) 傳訊息給主頁"
-date:   2019-04-29 12:00:00 +0800
-categories: iframe, postmessage, message-channel
+title: "使用 postMessage 由嵌入頁 ( IFrame ) 傳訊息給主頁"
+date: 2019-04-29 12:00:00 +0800
+tags: [iframe, postmessage, message-channel]
 ---
 
 > 嵌入頁因為跟主頁屬於不同的視窗，所以不能直接傳遞訊息，本文紀錄如何使用 postMessage 在兩個視窗間傳遞訊息。

@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Webpack介紹"
-date:   2018-03-29 23:59:00 +0800
-categories: webpack
+title: "Webpack介紹"
+date: 2018-03-29 23:59:00 +0800
+tags: webpack
 ---
 
 > Webpack是一個JavaScript的模組整合工具，它可以幫助我們在開發後的配置更加便利及有效，其最主要的功能就是可以將多個檔案合為一個檔案，達到減少請求的次數，在此同時也可以將模組間的相依問題解決，在前端開發如此複雜的現今，Webpack已經是不可缺少的工具了。

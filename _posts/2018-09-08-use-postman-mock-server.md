@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用Postman的Mock Server"
-date:   2018-09-08 18:03 +0800
-categories: postman
+title: "使用Postman的Mock Server"
+date: 2018-09-08 18:03 +0800
+tags: postman
 ---
 
 >> 前後端分離的系統開發時，為了可以同時進行開發會先寫一個傳送假資料的 Server ，以便在後端的 API 還沒有開發完成時前端可以同時開發，之前在開發時都是使用 [axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter) 來做 Mock Server ，在使用上沒有什麼太大的問題，但還是必須要寫程式，在佈署的時候也要記得記得把程式修改，如今有 Postman 的幫忙不用寫程式也可以建立一個強大功能的 Mock Server 了。

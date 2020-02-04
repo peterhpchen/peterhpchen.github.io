@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "在 Visual Studio 中除錯 ASP "
-date:   2018-08-23 19:00 +0800
-categories: asp
+title: "在 Visual Studio 中除錯 ASP "
+date: 2018-08-23 19:00 +0800
+tags: asp
 ---
 
 > 本文介紹開發 Active Server Pages 時的除錯方法。

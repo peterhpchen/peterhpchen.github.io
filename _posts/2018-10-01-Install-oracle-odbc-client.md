@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "安裝 Oracle ODBC Client"
-date:   2018-10-01 12:30 +0800
-categories: oracle, odbc
+title: "安裝 Oracle ODBC Client"
+date: 2018-10-01 12:30 +0800
+tags: [oracle, odbc]
 ---
 
 > 本文紀錄在 Windows 10 上安裝 Oracle ODBC Client (32-bit) 的流程。

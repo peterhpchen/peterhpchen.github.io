@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "JavaScript的var陳述式"
-date:   2018-02-04 20:00:00 +0800
-categories: javascript
+title: "JavaScript的var陳述式"
+date: 2018-02-04 20:00:00 +0800
+tags: javascript
 ---
 > 對JavaScript有稍微了解的人都知道，JavaScript中的var是在宣告變數時所使用的陳述式，但很多人對於var的理解都是建立在像是Java這樣的強型別語言的變數宣告上，這樣的理解對於JavaScript的開發者來說是很致命的，這樣的錯誤會產生Bug讓你多加兩天的班，為了避免少了兩個晚上的悠閒，我們現在來看看var究竟在玩什麼把戲。
 

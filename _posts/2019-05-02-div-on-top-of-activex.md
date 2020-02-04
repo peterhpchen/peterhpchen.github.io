@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使 div 元素在 ActiveX frame 之上"
-date:   2019-05-02 17:30:00 +0800
-categories: iframe, activex
+title: "使 div 元素在 ActiveX frame 之上"
+date: 2019-05-02 17:30:00 +0800
+tags: [iframe, activex]
 ---
 
 > 舊有的系統為了要在網頁上做到一些桌面應用才能做到的事情，會將 ActiveX 嵌入網頁中，這樣的方式在以前的實作中常常出現，在維護舊系統時就有機會遇到這樣的問題: ActiveX 嵌入頁永遠處於其他 HTML 元素上，本文紀錄如何將其他的 HTML 元素顯示在 ActiveX 嵌入頁之上。

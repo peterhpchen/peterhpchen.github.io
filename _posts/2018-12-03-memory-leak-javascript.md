@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 Chrome DevTools 找出 Memory Leak 問題"
-date:   2018-12-03 15:15:00 +0800
-categories: memory-leak, chrome-dev-tool, javascript
+title: "使用 Chrome DevTools 找出 Memory Leak 問題"
+date: 2018-12-03 15:15:00 +0800
+tags: [memory-leak, chrome-dev-tool, javascript]
 ---
 
 > 本文介紹如何使用 Chrome DevTools 找出 Memory Leak 問題的發生處。

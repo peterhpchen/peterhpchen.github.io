@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 vue cli 建立 NPM package"
-date:   2019-03-24 16:00:00 +0800
-categories: vue, vue-cli
+title: "使用 vue cli 建立 NPM package"
+date: 2019-03-24 16:00:00 +0800
+tags: [vue, vue-cli]
 ---
 
 > 在寫程式的時候，常會有需要可以重複使用的代碼或是元件的情形，而這些很有可能對其他的開發者來說也十分的有用，這時候我們就可以把這些代碼或是元件包成 NPM 的 package 並且發布上 NPM ，一方面可以更有效的管理這些元件，另外也可以幫助到需要使用相同功能的開發者，貢獻開源專案。

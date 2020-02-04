@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "為什麼JavaScript的Function是First-class Function?"
-date:   2018-01-27 11:00:00 +0800
-categories: javascript
+title: "為什麼JavaScript的Function是First-class Function?"
+date: 2018-01-27 11:00:00 +0800
+tags: javascript
 ---
 
 > JavaScript是我目前最常使用的語言，但對於它的特性我一直沒有深入研究，只是在使用的時候隱約感覺到它有自己的特別之處，在這裡就來探討JavaScript的函式為什麼First-class function，它需要具備什麼特性以及在JavaScript中是怎麼運用First-class function的這些特性。

@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 Cypress 做 E2E 測試 Part 1 : 介紹 、 安裝及使用"
-date:   2018-11-24 08:36:06 +0800
-categories: test, cypress
+title: "使用 Cypress 做 E2E 測試 Part 1 : 介紹 、 安裝及使用"
+date: 2018-11-24 08:36:06 +0800
+tags: [test, cypress]
 ---
 
 > 本文為 Cypress 的使用筆記，紀錄如何安裝 Cypress 。

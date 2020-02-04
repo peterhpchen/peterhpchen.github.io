@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "在 Vue.js 專案中的 svg 檔裡使用客製的字型"
-date:   2018-09-21 01:00 +0800
-categories: vue, svg, font
+title: "在 Vue.js 專案中的 svg 檔裡使用客製的字型"
+date: 2018-09-21 01:00 +0800
+tags: [vue, svg, font]
 ---
 
 > 當在 svg 檔中需要有文字，而文字的字型卻是客製的時候，會發生在 svg 中的文字無法吃到 @font-face 設定的字型，本文紀錄解決方法。

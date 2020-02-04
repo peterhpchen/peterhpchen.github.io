@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "怎麼寫正規表達式(Regular Expressions)?"
-date:   2018-03-02 01:53:06 +0800
-categories: regular-expression
+title: "怎麼寫正規表達式(Regular Expressions)?"
+date: 2018-03-02 01:53:06 +0800
+tags: regular-expression
 ---
 
 > 在寫程式時常常會需要比對字串，或是從字串中取得目標的結果，在還不知道有正規表達式前，我都是使用像是indexOf之類的字串方法來比對，而我知道了正規表達式後，被這神奇的語法驚呆了，只用了一個表達式就可以實現我寫了幾十行的程式碼，但是對於他那像是天書般的寫法給嚇跑了，現在剛好有時間可以好好研究，這篇用來記錄正規表達式的寫法。

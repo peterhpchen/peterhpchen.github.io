@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 Cypress 做 E2E 測試 Part 2 : 撰寫測試腳本"
-date:   2018-12-04 23:20:00 +0800
-categories: test, cypress
+title: "使用 Cypress 做 E2E 測試 Part 2 : 撰寫測試腳本"
+date: 2018-12-04 23:20:00 +0800
+tags: [test, cypress]
 ---
 
 > 本文會用範例來帶大家了解如何使用 Cypress 做 e2e 測試。

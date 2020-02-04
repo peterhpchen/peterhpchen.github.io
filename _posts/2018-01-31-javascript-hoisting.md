@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "JavaScript的Hoisting"
-date:   2018-01-31 08:00:00 +0800
-categories: javascript
+title: "JavaScript的Hoisting"
+date: 2018-01-31 08:00:00 +0800
+tags: javascript
 ---
 
 > JavaScript有很多奇怪的地方，Hoisting就是其中一個跟其他程式語言比較不同的地方，它會將變數及函數的宣告向上擺，讓程式感覺上不像是由上往下執行，而是有某幾行先執行這樣的感覺，這顛覆了一般程式執行的概念，本章會由例子來觀察JavaScript的Hoisting機制。

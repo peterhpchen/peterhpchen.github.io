@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "在WSL下編寫程式"
-date:   2018-01-26 11:00:00 +0800
-categories: windows linux bash ruby
+title: "在WSL下編寫程式"
+date: 2018-01-26 11:00:00 +0800
+tags: [windows, linux, bash, ruby]
 ---
 
 > Ruby是一個很棒的程式語言，它的函式庫RubyGems上更是有很多很棒的套件可以使用，包括Jekyll這個GitHub Page的引擎，但Ruby對想要在Windows平台上做開發的人來說並不友善，我們必須要先安裝RubyInstaller才能進行編程，對於Linux只要一個指令就可以開始開發來說實在是有夠麻煩，WSL的出現是否會改變這個情況呢? 這篇就來介紹如何在WSL下編寫程式。

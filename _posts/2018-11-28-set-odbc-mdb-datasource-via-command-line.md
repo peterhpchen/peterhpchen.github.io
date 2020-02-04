@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "使用 Command Line 建立 mdb 的 odbc data source"
-date:   2018-11-28 12:00:00 +0800
-categories: odbc, mdb
+title: "使用 Command Line 建立 mdb 的 odbc data source"
+date: 2018-11-28 12:00:00 +0800
+tags: [odbc, mdb]
 ---
 
 > 一般設定 odbc 會使用 odbc 資料來源管理員，本文將使用 Command Line 的方式新增 .mdb 的資料來源。

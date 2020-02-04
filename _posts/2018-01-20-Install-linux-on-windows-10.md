@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "在Windows10中使用Bash"
-date:   2018-01-20 01:00:00 +0800
-categories: windows linux bash
+title: "在Windows10中使用Bash"
+date: 2018-01-20 01:00:00 +0800
+tags: [windows, linux, bash]
 ---
 
 > 在Windows10的Anniversary Update後，Windows Subsystem for Linux(WSL)釋出，震驚了我這個身在Windows心在Linux的開發者，雖然一直想要嘗試一下到底在Windows上吃Bash是什麼樣的滋味，但是一直沒有機會跟時間，但在前不久的Fall Creators Update，我們已經可以在Windows Store中直接安裝ubuntu等Linux環境，看起來已經成熟許多了，我們就來安裝這個神奇的WSL吧。

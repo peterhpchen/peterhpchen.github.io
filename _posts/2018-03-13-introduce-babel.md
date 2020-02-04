@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Babel介紹"
-date:   2018-03-13 22:43:00 +0800
-categories: javascript babel
+title: "Babel介紹"
+date: 2018-03-13 22:43:00 +0800
+tags: javascript babel
 ---
 
 > 每次ECMAScript新標準出來時，看著酷炫的語法卻礙於瀏覽器支援問題而怯步的我，在知道了Babel這個工具可以將最先進的語法轉為每個瀏覽器都通用的舊語法時，真的是像看到救世主一樣，感動的說不出話來。

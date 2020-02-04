@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "在Vue.js中使用JQuery Plugins"
-date:   2018-03-23 12:01:00 +0800
-categories: vuejs jquery
+title: "在Vue.js中使用JQuery Plugins"
+date: 2018-03-23 12:01:00 +0800
+tags: [vuejs, jquery]
 ---
 
 > 一般來說開發時最好避免混用Vue及JQuery，因為兩個框架的理念並不相同，Vue是專注在對Model的操作，而JQuery則是專注在DOM的操作，如果在Vue中使用JQuery，那JQuery所更新的DOM會因為不是透過Vue的Model更新而不會被Vue所察覺，導致我們在操作Model時會跟JQuery的資料脫鉤。

@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "在Postman中使用環境變數"
-date:   2018-05-04 13:56 +0800
-categories: postman
+title: "在Postman中使用環境變數"
+date: 2018-05-04 13:56 +0800
+tags: postman
 ---
 
 > 通常我們測試的API都會需要夾帶Token來驗證使用者的合法性，而這個Token會在登入成功後放進cookie裡，以便之後的請求可以使用token，但在postman中每次驗證前都要先把登入的Token貼到待測試的API中，這個動作雖然小，但每次都要做也著實讓人不舒服，這篇就利用Postman中的環境變數來解決這個問題。
