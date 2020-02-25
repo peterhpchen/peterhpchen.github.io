@@ -67,7 +67,9 @@ hello
 
 > CPU 數可以使用 `runtime.NumCPU()` 取得。
 
-## Goroutine 語法
+## Goroutine 介紹
+
+可以想成建立了一個 Goroutine 就是建立了一個新的 Thread。
 
 ```go
 go f(x, y, z)
@@ -80,7 +82,7 @@ go f(x, y, z)
 
 ## 等待
 
-再多執行緒下，其中一個經常發生的事情是**等待**，等待有時是好的有時是應該被避免的。
+多執行緒下，經常需要處理的是執行緒之間的狀態管理，其中一個經常發生的事情是**等待**，例如A執行緒需要等B執行緒計算並取得資料後才能繼續往下執行，在這情況下**等待**就變得十分重要。
 
 ### 應該等待的時機
 
@@ -99,6 +101,12 @@ func main() {
 
 這裡的問題發生在 `main` Goroutine 結束時，另外兩個 `say` Goroutine 會被強制關閉導致結果錯誤，這時就需要等待其他的 Goroutine 結束後 `main` Goroutine 才能結束。
 
+接下來會介紹三種等待的方式，並且分析其利弊：
+
+* `time.Sleep`: 休眠指定時間
+* `sync.WaitGroup`: 等待直到指定數量的 `Done()` 叫用
+* Channel 阻塞: 使用 Channel 阻塞機制，使用接收時等待的特性避免執行緒繼續執行
+
 #### time.Sleep
 
 使 Goroutine 休眠，讓其他的 Goroutine 有執行的機會。
@@ -112,7 +120,9 @@ func main() {
 }
 ```
 
-休息指定時間可能會比 Goroutine 需要執行的時間長或短，**太長會耗費多餘的時間，太短會使其他 Goroutine 無法完成**。
+缺點：
+
+* 休息指定時間可能會比 Goroutine 需要執行的時間長或短，**太長會耗費多餘的時間，太短會使其他 Goroutine 無法完成**
 
 #### sync.WaitGroup
 
@@ -141,9 +151,17 @@ func main() {
 * 將 `WaitGroup` 傳入 Goroutine 中，在執行完成後叫用 `wg.Done()` 將 counter 減一
 * `wg.Wait()` 會等待直到 counter 減為零為止
 
+優點
+
+* 避免時間預估的錯誤
+
+缺點
+
+* 需要手動配置對應的 Counter
+
 #### Channel
 
-最後介紹的是 Channel 原為 Goroutine 溝通時使用的，但因其阻塞的特性，使其可以當作等待 Goroutine 的方法。
+最後介紹的是使用 Channel 等待, 原為 Goroutine 溝通時使用的，但因其阻塞的特性，使其可以當作等待 Goroutine 的方法。
 
 ```go
 func say(s string, c chan string) {
@@ -166,6 +184,34 @@ func main() {
 ```
 
 起了兩個 Goroutine(`say("world", ch)`, `say("hello", ch)`) ，因此需要等待兩個 `FINISH` 推入 Channel 中才能結束 Main Goroutine。
+
+優點
+
+* 避免時間預估的錯誤
+* 語法簡潔
+
+Channel 阻塞的方法為 Go 語言中等待方式的主流。
+
+## Channel 介紹
+
+Channel 可以想成一條管線，這條管線可以推入數值，並且也可以將數值拉取出來。
+
+因為 Channel 會等待至另一端完成推入/拉出的動作後才會繼續往下處理，這樣的特性使其可以在 Goroutines 間同步的處理資料，而不用使用明確的 lock, unlock 等方法。
+
+建立 Channel
+
+```go
+ch := make(chan int) // 建立 int 型別的 Channel
+```
+
+推入/拉出 Channel 內的值，使用 `<-` 箭頭運算子：
+
+* Channel 在 `<-` 左邊：將箭頭右邊的數值推入 Channel 中
+
+```go
+ch <- v    // Send v to channel ch.
+v := <-ch  // Receive from ch, and assign value to v.
+```
 
 ## 參考資料
 
