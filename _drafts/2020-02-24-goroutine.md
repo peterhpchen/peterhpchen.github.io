@@ -213,6 +213,88 @@ ch <- v    // Send v to channel ch.
 v := <-ch  // Receive from ch, and assign value to v.
 ```
 
+### Channel 的阻塞
+
+Goroutine 使用 Channel 時有兩種情況會造成阻塞：
+
+* 將資料推入 Channel，但其他 Goroutine 還未拉取資料時，將資料推入的 Goroutine 會被迫等待其他 Goroutine 拉取資料才能往下執行
+* 當 Channel 中沒有資料，但要從中拉取時，想要拉取資料的 Goroutine 會被迫等待其他 Goroutine 推入資料並自己完成拉取後才能往下執行
+
+#### Goroutine 推資料入 Channel 時的等待情境
+
+```go
+func main() {
+    ch := make(chan string)
+
+    go func() { // calculate goroutine
+        fmt.Println("calculate goroutine starts calculating")
+        time.Sleep(time.Second) // Heavy calculation
+        fmt.Println("calculate goroutine ends calculating")
+
+        ch <- "FINISH" // goroutine 執行會在此被迫等待
+
+        fmt.Println("calculate goroutine finished")
+    }()
+
+    time.Sleep(2 * time.Second) // 使 main 比 goroutine 慢
+    fmt.Println(<-ch)
+    time.Sleep(time.Second)
+    fmt.Println("main goroutine finished")
+}
+```
+
+```bash
+calculate goroutine starts calculating
+calculate goroutine ends calculating
+FINISH
+calculate goroutine finished
+main goroutine finished
+```
+
+此例使用 `time.Sleep` 強迫 main 執行慢於 calculate，現在來觀察輸出的結果：
+
+* calculate 會先執行並且計算完成
+* calculate 將 `FINISH` 訊號發送給 Channel
+* 但由於目前 main 還未拉取 Channel 中的資料，所以 calculate 會被迫等待，因此 calculate 的最後一行 `fmt.println` 沒有馬上輸出在畫面上
+* main 拉取了 Channel 中的資料
+* calculate 執行完成 / main 執行完成(哪個先不一定)
+
+#### Goroutine 拉資料出 Channel 時的等待情境
+
+```go
+func main() {
+    ch := make(chan string)
+
+    go func() {
+        fmt.Println("calculate goroutine starts calculating")
+        time.Sleep(time.Second) // Heavy calculation
+        fmt.Println("calculate goroutine ends calculating")
+
+        ch <- "FINISH"
+
+        fmt.Println("calculate goroutine finished")
+    }()
+
+    fmt.Println("main goroutine is waiting for channel to receive value")
+    fmt.Println(<-ch) // goroutine 執行會在此被迫等待
+    fmt.Println("main goroutine finished")
+}
+```
+
+```bash
+main goroutine is waiting for channel to receive value
+calculate goroutine starts calculating
+calculate goroutine ends calculating
+calculate goroutine finished
+FINISH
+main goroutine finished
+```
+
+* main 因拉取的時候 calculate 還沒將資料推入 Channel 中，因此 main 會被迫等待，因此 main 的最後一行 `fmt.println` 沒有馬上輸出在畫面上
+* calculate 執行並且計算完成
+* calculate 將 `FINISH` 訊號發送給 Channel
+* calculate 執行完成 / main 拉取了 Channel 中的資料並且執行完成(哪個先不一定)
+
 ## 參考資料
 
 * [A tour of Go - Goroutines](https://tour.golang.org/concurrency)
