@@ -295,6 +295,50 @@ main goroutine finished
 * calculate 將 `FINISH` 訊號發送給 Channel
 * calculate 執行完成 / main 拉取了 Channel 中的資料並且執行完成(哪個先不一定)
 
+### Unbuffered Channel
+
+前面一直提到的是 Unbuffered Channel，此種 Channel 只要推入一個資料就會造成推入方的等待。
+
+// unbuffered channel 的圖片
+
+使用 Unbuffered Channel 的壞處是：如果推入方的執行一次的時間較拉取方短，會造成推入方被迫等待拉取方才能在做下一次的處理，這樣的等待是不必要並且需要被避免的。
+
+為了解決推入方等待問題，可以使用另一種 Channel：Unbuffered Channel。
+
+### Buffered Channel
+
+```go
+ch: make(chan int, 100)
+```
+
+Buffered Channel 的宣告會在第二個參數中定義 buffer 的長度，它只會在 Buffered 中資料填滿以後才會阻塞造成等待，以上例來說：第101個資料推入的時候，推入方的 Goroutine 才會等待。
+
+先來看個例子：
+
+```go
+func main() {
+    ch := make(chan int)
+    ch <- 1 // 等到天荒地老
+    fmt.Println(<-ch)
+}
+```
+
+上例使用 Unbuffered Channel：
+
+* 只有一條 goroutine：main
+* 推入 1 後因為還沒有其他 Goroutine 拉取，所以進入阻塞
+* 因為 main 已經在推入資料時阻塞，所以拉取的程式永遠不會被執行，造成死結
+
+接著看 Unbuffered Channel：
+
+```go
+func main() {
+    ch := make(chan int, 1)
+    ch <- 1
+    fmt.Println(<-ch)
+}
+```
+
 ## 參考資料
 
 * [A tour of Go - Goroutines](https://tour.golang.org/concurrency)
