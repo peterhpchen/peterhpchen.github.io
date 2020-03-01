@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Goroutine 與 Channel"
+title: "Go 的並發：Goroutine 與 Channel 介紹"
 tags: [golang]
 ---
 
@@ -11,6 +11,7 @@ Goroutine 是 Go 語言的 thread, 它使 Go 建立多工處理簡單化, 搭配
 在單執行緒下，每行程式碼都會依照順序執行。
 
 ```go
+// single-thread.go
 func say(s string) {
     for i := 0; i < 5; i++ {
         time.Sleep(100 * time.Millisecond)
@@ -44,6 +45,7 @@ hello
 在多執行緒下，最多可以同時執行與 CPU 數相等的 Goroutine。
 
 ```go
+// multi-thread.go
 func main() {
     go say("world")
     say("hello")
@@ -112,6 +114,7 @@ func main() {
 使 Goroutine 休眠，讓其他的 Goroutine 有執行的機會。
 
 ```go
+// sleep.go
 func main() {
     go say("world")
     go say("hello")
@@ -127,6 +130,7 @@ func main() {
 #### sync.WaitGroup
 
 ```go
+// wait-group.go
 func say(s string, wg *sync.WaitGroup) {
     defer wg.Done()
 
@@ -164,6 +168,7 @@ func main() {
 最後介紹的是使用 Channel 等待, 原為 Goroutine 溝通時使用的，但因其阻塞的特性，使其可以當作等待 Goroutine 的方法。
 
 ```go
+// channel-wait.go
 func say(s string, c chan string) {
     for i := 0; i < 5; i++ {
         time.Sleep(100 * time.Millisecond)
@@ -190,9 +195,97 @@ func main() {
 * 避免時間預估的錯誤
 * 語法簡潔
 
-Channel 阻塞的方法為 Go 語言中等待方式的主流。
+> Channel 阻塞的方法為 Go 語言中等待的主要方式。
+
+## 多執行緒下的共享變數
+
+在執行緒間使用同樣的變數時，最重要的是確保變數在當前的正確性，下面有個例子：
+
+```go
+// total-error.go
+func main() {
+    total := 0
+    for i := 0; i < 1000; i++ {
+        go func() {
+            total++
+        }()
+    }
+    time.Sleep(time.Second)
+    fmt.Println(total)
+}
+```
+
+```bash
+1000
+```
+
+我們想要用多個 goroutine 組合成 `FINISHED` 並輸出，但由於是多執行緒，在賦值時無法確保其為安全的而導致運算錯誤。
+
+### 互斥鎖(sync.Mutex)
+
+在這種狀況下，可以使用互斥鎖(`sync.Mutex`)來保證變數的安全：
+
+```go
+// total-mutex.go
+type SafeNumber struct {
+    v   int
+    mux sync.Mutex // 互斥鎖
+}
+
+func main() {
+    total := SafeNumber{v: 0}
+    for i := 0; i < 1000; i++ {
+        go func() {
+            total.mux.Lock()
+            total.v++
+            total.mux.Unlock()
+        }()
+    }
+    time.Sleep(time.Second)
+    total.mux.Lock()
+    fmt.Println(total.v)
+    total.mux.Unlock()
+}
+```
+
+```bash
+1000
+```
+
+互斥鎖使用在資料結構(`struct`)中，用以確保結構中變數讀寫時的安全，它提供兩個方法：
+
+* `Lock`
+* `Unlock`
+
+在 `Lock` 及 `Unlock` 中間，go 會確保此區塊中的變數安全。
+
+### 藉由 Channel 保證變數的安全性
+
+```go
+// total-channel.go
+func main() {
+    total := 0
+    ch := make(chan int, 1)
+    ch <- total
+    for i := 0; i < 1000; i++ {
+        go func() {
+            ch <- <-ch + 1
+        }()
+    }
+    time.Sleep(time.Second)
+    fmt.Println(<-ch)
+}
+```
+
+```bash
+1000
+```
+
+因為 Channel 推入及拉出時等待的特性，被拉出來做計算的值會保證是安全的。
 
 ## Channel 介紹
+
+上面講了這麼多，大家應該對 Channel 的強大功能有點概念了，接著來深入了解一下 Channel。
 
 Channel 可以想成一條管線，這條管線可以推入數值，並且也可以將數值拉取出來。
 
@@ -223,6 +316,7 @@ Goroutine 使用 Channel 時有兩種情況會造成阻塞：
 #### Goroutine 推資料入 Channel 時的等待情境
 
 ```go
+// channel-block-push.go
 func main() {
     ch := make(chan string)
 
@@ -262,6 +356,7 @@ main goroutine finished
 #### Goroutine 拉資料出 Channel 時的等待情境
 
 ```go
+// channel-block-pull.go
 func main() {
     ch := make(chan string)
 
@@ -313,9 +408,12 @@ ch: make(chan int, 100)
 
 Buffered Channel 的宣告會在第二個參數中定義 buffer 的長度，它只會在 Buffered 中資料填滿以後才會阻塞造成等待，以上例來說：第101個資料推入的時候，推入方的 Goroutine 才會等待。
 
+// Buffered Channel 的圖片
+
 先來看個例子：
 
 ```go
+// unbuffered-channel-error.go
 func main() {
     ch := make(chan int)
     ch <- 1 // 等到天荒地老
@@ -326,18 +424,183 @@ func main() {
 上例使用 Unbuffered Channel：
 
 * 只有一條 goroutine：main
-* 推入 1 後因為還沒有其他 Goroutine 拉取，所以進入阻塞
+* 推入 1 後因為還沒有其他 Goroutine 拉取，所以進入阻塞狀態
 * 因為 main 已經在推入資料時阻塞，所以拉取的程式永遠不會被執行，造成死結
 
-接著看 Unbuffered Channel：
+在相同的情況下，Buffered Channel 並不會被阻塞：
 
 ```go
+// buffered-channel.go
 func main() {
     ch := make(chan int, 1)
     ch <- 1
     fmt.Println(<-ch)
 }
 ```
+
+原因是：
+
+* 推入 1 後 Channel 內的資料數並沒有超過 Buffer 的長度，所以不會被阻塞
+* 因為沒有阻塞，所以下一行拉取的程式碼可以被執行，並且完成執行
+
+### Loop 中的 Channel
+
+在迴圈中的 Channel 可以藉由第二個回傳值 ok 確認 Channel 是否被關閉，如果被關閉的話代表此 Channel 已經不再使用，可以結束巡覽。
+
+```go
+// for-loop.go
+func main() {
+    c := make(chan int)
+    go func() {
+        for i := 0; i < 10; i++ {
+            c <- i
+        }
+        close(c) // 關閉 Channel
+    }()
+    for {
+        v, ok := <-c
+        if !ok { // 判斷 Channel 是否關閉
+            break
+        }
+        fmt.Println(v)
+    }
+}
+```
+
+```bash
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+
+如果對 Closed Channel 推入資料的話會造成 Panic：
+
+```go
+// closed-channel-panic.go
+func main() {
+    c := make(chan int)
+    close(c)
+    c <- 0 // Panic!!!
+}
+```
+
+```bash
+panic: send on closed channel
+```
+
+> 為了避免將資料推入已關閉的 Channel 中造成 Panic，Channel 的關閉應該由推入的 Goroutine 處理。
+
+### Range 中的 Channel
+
+Range 是可以巡覽 Channel 的，終止條件為 Channel 的狀態為關閉(Close)：
+
+```go
+// range.go
+func main() {
+    c := make(chan int, 10)
+    go func() {
+        for i := 0; i < 10; i++ {
+            c <- i
+        }
+        close(c) // 關閉 Channel
+    }()
+    for i := range c { // 在 close 後跳出迴圈
+        fmt.Println(i)
+    }
+}
+```
+
+### 使用 Select 避免等待
+
+在 Channel 推入/拉取時，會有一段等待的時間而造成 Goroutine 無法回應，如果此 Goroutine 是負責處理畫面的，使用者就會看到畫面 lag 的情況，這是我們不想讓他發生的。
+
+以前面說到的例子說明：
+
+```go
+// block.go
+func main() {
+    ch := make(chan string)
+
+    go func() {
+        fmt.Println("calculate goroutine starts calculating")
+        time.Sleep(time.Second) // Heavy calculation
+        fmt.Println("calculate goroutine ends calculating")
+
+        ch <- "FINISH"
+
+        fmt.Println("calculate goroutine finished")
+    }()
+
+    fmt.Println("main goroutine is waiting for channel to receive value")
+    fmt.Println(<-ch) // goroutine 執行會在此被迫等待
+    fmt.Println("main goroutine finished")
+}
+```
+
+```bash
+main goroutine is waiting for channel to receive value # main goroutine 阻塞
+calculate goroutine starts calculating
+calculate goroutine ends calculating
+calculate goroutine finished
+FINISH # main goroutine 解除阻塞
+main goroutine finished
+```
+
+main goroutine 要拉取 ch 的資料時，會被迫等待，這時會無法回饋目前的狀態給使用者，造成卡頓的清況。
+
+這時可以使用 Go 提供的 Select 語法，讓開發者可以很輕鬆的處理 Channel 的多種情況，包括阻塞時的處理。
+
+```go
+// select.go
+func main() {
+    ch := make(chan string)
+
+    go func() {
+        fmt.Println("calculate goroutine starts calculating")
+        time.Sleep(time.Second) // Heavy calculation
+        fmt.Println("calculate goroutine ends calculating")
+
+        ch <- "FINISH"
+        time.Sleep(time.Second)
+        fmt.Println("calculate goroutine finished")
+    }()
+
+    for {
+        select {
+        case <-ch: // Channel 中有資料執行此區域
+            fmt.Println("main goroutine finished")
+            return
+        default: // Channel 阻塞的話執行此區域
+            fmt.Println("WAITING...")
+            time.Sleep(500 * time.Millisecond)
+        }
+    }
+}
+```
+
+```bash
+WAITING... # main goroutine 在阻塞時可以回應
+calculate goroutine starts calculating
+WAITING... # main goroutine 在阻塞時可以回應
+WAITING... # main goroutine 在阻塞時可以回應
+calculate goroutine ends calculating
+main goroutine finished # main goroutine 解除阻塞並結束程式
+```
+
+將剛剛的例子改為 `select` 來處理，可以使 channel 的推入/拉取不會阻塞：
+
+* 會在沒有阻塞的情況下才會執行對應的區塊
+* `case <-ch:`: 會等到沒有阻塞情況時(`ch` 內有資料)才會執行
+* `default:`: 在所有的 `case` 都阻塞的情況下執行
+
+因為有 `default` 可以設置，當 Channel 阻塞時也可以藉由 `default` 輸出資訊讓使用者知道。
 
 ## 參考資料
 
