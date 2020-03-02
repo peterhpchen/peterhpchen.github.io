@@ -4,7 +4,9 @@ title: "Go 的並發：Goroutine 與 Channel 介紹"
 tags: [golang]
 ---
 
-Goroutine 是 Go 語言的 thread, 它使 Go 建立多工處理簡單化, 搭配 Channel 使 Goroutine 間的溝通無虞, 本文記錄學習 Goroutine 及 Channel 的軌跡。
+Goroutine 像是 Go 語言的 thread, 使 Go 建立多工處理, 搭配 Channel 使 Goroutine 操作簡單化, 本文介紹 Goroutine 及 Channel 的使用方式。
+
+> 範例程式碼可以在 [golang-concurrency-example](https://github.com/peterhpchen/golang-concurrency-example) 中找到，每個程式第一行可以找到其範例檔名。
 
 ## 單執行緒
 
