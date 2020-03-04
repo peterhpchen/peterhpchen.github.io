@@ -42,6 +42,8 @@ hello
 
 上例會先執行完 `say("world")` 後再執行 `say("hello")`。
 
+![single-thread](/assets/2020-03-05-goroutine-and-channel/single-thread.png)
+
 ## 多執行緒
 
 在多執行緒下，最多可以同時執行與 CPU 數相等的 Goroutine。
@@ -68,6 +70,8 @@ hello
 ```
 
 如此一來, `say("world")`會跑在另一個執行緒(Goroutine)上，使其並行執行。
+
+![multi-thread](/assets/2020-03-05-goroutine-and-channel/multi-thread.png)
 
 > CPU 數可以使用 `runtime.NumCPU()` 取得。
 
@@ -113,7 +117,7 @@ func main() {
 
 #### time.Sleep
 
-使 Goroutine 休眠，讓其他的 Goroutine 有執行的機會。
+使 Goroutine 休眠，讓其他的 Goroutine 在 main 結束前有時間執行完成。
 
 ```go
 // sleep.go
@@ -124,6 +128,8 @@ func main() {
     time.Sleep(5 * time.Second)
 }
 ```
+
+![sleep](/assets/2020-03-05-goroutine-and-channel/sleep.png)
 
 缺點：
 
@@ -152,6 +158,8 @@ func main() {
     wg.Wait()
 }
 ```
+
+![wait-group](/assets/2020-03-05-goroutine-and-channel/wait-group.png)
 
 * 產生與想要等待的 Goroutine 同樣多的 `WaitGroup` counter
 * 將 `WaitGroup` 傳入 Goroutine 中，在執行完成後叫用 `wg.Done()` 將 counter 減一
@@ -189,6 +197,8 @@ func main() {
     <-ch
 }
 ```
+
+![channel-wait](/assets/2020-03-05-goroutine-and-channel/channel-wait.png)
 
 起了兩個 Goroutine(`say("world", ch)`, `say("hello", ch)`) ，因此需要等待兩個 `FINISH` 推入 Channel 中才能結束 Main Goroutine。
 
