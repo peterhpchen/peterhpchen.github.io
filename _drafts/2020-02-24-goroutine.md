@@ -211,7 +211,7 @@ func main() {
 
 ## 多執行緒下的共享變數
 
-在執行緒間使用同樣的變數時，最重要的是確保變數在當前的正確性，下面有個例子：
+在執行緒間使用同樣的變數時，最重要的是確保變數在當前的正確性，在沒有控制的情況下極有可能發生問題，下面有個例子：
 
 ```go
 // total-error.go
@@ -228,10 +228,19 @@ func main() {
 ```
 
 ```bash
-1000
+958
 ```
 
-我們想要用多個 goroutine 組合成 `FINISHED` 並輸出，但由於是多執行緒，在賦值時無法確保其為安全的而導致運算錯誤。
+![total-error](/assets/2020-03-05-goroutine-and-channel/total-error.png)
+
+假設目前加到28，在多執行緒的情況下：
+
+* `goroutine1` 取值 28 做運算
+* `goroutine2` 有可能在 `goroutine1` 做 `total++` 前就取 `total` 的值，因此有可能取到 28
+* 這樣的情況下做兩次加法的結果會是 29 而非 30
+
+
+在多個 goroutine 裡對同一個變數`total`做加法運算，在賦值時無法確保其為安全的而導致運算錯誤。
 
 ### 互斥鎖(sync.Mutex)
 
@@ -264,12 +273,14 @@ func main() {
 1000
 ```
 
+![total-mutex](/assets/2020-03-05-goroutine-and-channel/total-mutex.png)
+
 互斥鎖使用在資料結構(`struct`)中，用以確保結構中變數讀寫時的安全，它提供兩個方法：
 
 * `Lock`
 * `Unlock`
 
-在 `Lock` 及 `Unlock` 中間，go 會確保此區塊中的變數安全。
+在 `Lock` 及 `Unlock` 中間，會使其他的 goroutine 等待，確保此區塊中的變數安全。
 
 ### 藉由 Channel 保證變數的安全性
 
@@ -293,7 +304,18 @@ func main() {
 1000
 ```
 
+![total-channel](/assets/2020-03-05-goroutine-and-channel/total-channel.png)
+
+* goroutine1 拉出 `total` 後，channel 中沒有資料了
+* 因為 channel 中沒有資料，因此造成 goroutine2 等待
+* goroutine1 計算完成後，將 `total` 推入 channel
+* goroutine2 等到 channel 中有資料，拉出後結束等待，繼續做運算
+
 因為 Channel 推入及拉出時等待的特性，被拉出來做計算的值會保證是安全的。
+
+>> 因為此範例一定要拉出 Channel 資料才能做運算，所以使用非立即阻塞的 Buffered Channel ，與 Unbuffered Channel 的差別等下會說明。
+
+>> 上述的三個例子在 main goroutine 中都使用 `time.Sleep` 避免程式提前結束。
 
 ## Channel 介紹
 
@@ -323,7 +345,12 @@ v := <-ch  // Receive from ch, and assign value to v.
 Goroutine 使用 Channel 時有兩種情況會造成阻塞：
 
 * 將資料推入 Channel，但其他 Goroutine 還未拉取資料時，將資料推入的 Goroutine 會被迫等待其他 Goroutine 拉取資料才能往下執行
+
+![channel-sleep-push](/assets/2020-03-05-goroutine-and-channel/channel-sleep-push.png)
+
 * 當 Channel 中沒有資料，但要從中拉取時，想要拉取資料的 Goroutine 會被迫等待其他 Goroutine 推入資料並自己完成拉取後才能往下執行
+
+![channel-sleep-pull](/assets/2020-03-05-goroutine-and-channel/channel-sleep-pull.png)
 
 #### Goroutine 推資料入 Channel 時的等待情境
 
@@ -360,10 +387,11 @@ main goroutine finished
 此例使用 `time.Sleep` 強迫 main 執行慢於 calculate，現在來觀察輸出的結果：
 
 * calculate 會先執行並且計算完成
-* calculate 將 `FINISH` 訊號發送給 Channel
-* 但由於目前 main 還未拉取 Channel 中的資料，所以 calculate 會被迫等待，因此 calculate 的最後一行 `fmt.println` 沒有馬上輸出在畫面上
+* calculate 將 `FINISH` 訊號推入 Channel
+* 但由於目前 main 還未拉取 Channel 中的資料，所以 calculate 會被迫等待，因此 calculate 的最後一行 `fmt.Println("main goroutine finished")` 沒有馬上輸出在畫面上
 * main 拉取了 Channel 中的資料
-* calculate 執行完成 / main 執行完成(哪個先不一定)
+* calculate 執行`fmt.Println("main goroutine finished")` 並結束
+* main 執行完成
 
 #### Goroutine 拉資料出 Channel 時的等待情境
 
@@ -399,14 +427,16 @@ main goroutine finished
 
 * main 因拉取的時候 calculate 還沒將資料推入 Channel 中，因此 main 會被迫等待，因此 main 的最後一行 `fmt.println` 沒有馬上輸出在畫面上
 * calculate 執行並且計算完成
-* calculate 將 `FINISH` 訊號發送給 Channel
-* calculate 執行完成 / main 拉取了 Channel 中的資料並且執行完成(哪個先不一定)
+* calculate 將 `FINISH` 推入 Channel
+* calculate 執行完成
+* main 拉取了 Channel 中的資料並且執行完成
 
 ### Unbuffered Channel
 
-前面一直提到的是 Unbuffered Channel，此種 Channel 只要推入一個資料就會造成推入方的等待。
+前面一直提到的是 Unbuffered Channel，此種 Channel 只要
 
-// unbuffered channel 的圖片
+* 推入一個資料會造成推入方的等待
+* 拉出時沒有資料會造成拉出方的等待
 
 使用 Unbuffered Channel 的壞處是：如果推入方的執行一次的時間較拉取方短，會造成推入方被迫等待拉取方才能在做下一次的處理，這樣的等待是不必要並且需要被避免的。
 
@@ -420,7 +450,7 @@ ch: make(chan int, 100)
 
 Buffered Channel 的宣告會在第二個參數中定義 buffer 的長度，它只會在 Buffered 中資料填滿以後才會阻塞造成等待，以上例來說：第101個資料推入的時候，推入方的 Goroutine 才會等待。
 
-// Buffered Channel 的圖片
+![buffered-channel](/assets/2020-03-05-goroutine-and-channel/buffered-channel.png)
 
 先來看個例子：
 
