@@ -42,7 +42,9 @@ hello
 
 上例會先執行完 `say("world")` 後再執行 `say("hello")`。
 
-![single-thread](/assets/2020-03-05-goroutine-and-channel/single-thread.png)
+![single-thread](/assets/2020-03-08-goroutine-and-channel/single-thread.png)
+
+但有時個別方法的處理是沒有先後順序的，這時善用多執行緒就可以大大的提升效率。
 
 ## 多執行緒
 
@@ -71,7 +73,7 @@ hello
 
 如此一來, `say("world")`會跑在另一個執行緒(Goroutine)上，使其並行執行。
 
-![multi-thread](/assets/2020-03-05-goroutine-and-channel/multi-thread.png)
+![multi-thread](/assets/2020-03-08-goroutine-and-channel/multi-thread.png)
 
 > CPU 數可以使用 `runtime.NumCPU()` 取得。
 
@@ -129,7 +131,7 @@ func main() {
 }
 ```
 
-![sleep](/assets/2020-03-05-goroutine-and-channel/sleep.png)
+![sleep](/assets/2020-03-08-goroutine-and-channel/sleep.png)
 
 缺點：
 
@@ -159,11 +161,11 @@ func main() {
 }
 ```
 
-![wait-group](/assets/2020-03-05-goroutine-and-channel/wait-group.png)
+![wait-group](/assets/2020-03-08-goroutine-and-channel/wait-group.png)
 
-* 產生與想要等待的 Goroutine 同樣多的 `WaitGroup` counter
-* 將 `WaitGroup` 傳入 Goroutine 中，在執行完成後叫用 `wg.Done()` 將 counter 減一
-* `wg.Wait()` 會等待直到 counter 減為零為止
+* 產生與想要等待的 Goroutine 同樣多的 `WaitGroup` Counter
+* 將 `WaitGroup` 傳入 Goroutine 中，在執行完成後叫用 `wg.Done()` 將 Counter 減一
+* `wg.Wait()` 會等待直到 Counter 減為零為止
 
 優點
 
@@ -198,7 +200,7 @@ func main() {
 }
 ```
 
-![channel-wait](/assets/2020-03-05-goroutine-and-channel/channel-wait.png)
+![channel-wait](/assets/2020-03-08-goroutine-and-channel/channel-wait.png)
 
 起了兩個 Goroutine(`say("world", ch)`, `say("hello", ch)`) ，因此需要等待兩個 `FINISH` 推入 Channel 中才能結束 Main Goroutine。
 
@@ -231,7 +233,7 @@ func main() {
 958
 ```
 
-![total-error](/assets/2020-03-05-goroutine-and-channel/total-error.png)
+![total-error](/assets/2020-03-08-goroutine-and-channel/total-error.png)
 
 假設目前加到28，在多執行緒的情況下：
 
@@ -239,8 +241,7 @@ func main() {
 * `goroutine2` 有可能在 `goroutine1` 做 `total++` 前就取 `total` 的值，因此有可能取到 28
 * 這樣的情況下做兩次加法的結果會是 29 而非 30
 
-
-在多個 goroutine 裡對同一個變數`total`做加法運算，在賦值時無法確保其為安全的而導致運算錯誤。
+在多個 goroutine 裡對同一個變數`total`做加法運算，在賦值時無法確保其為安全的而導致運算錯誤，此問題稱為 **Race Condition**。
 
 ### 互斥鎖(sync.Mutex)
 
@@ -273,14 +274,14 @@ func main() {
 1000
 ```
 
-![total-mutex](/assets/2020-03-05-goroutine-and-channel/total-mutex.png)
+![total-mutex](/assets/2020-03-08-goroutine-and-channel/total-mutex.png)
 
 互斥鎖使用在資料結構(`struct`)中，用以確保結構中變數讀寫時的安全，它提供兩個方法：
 
 * `Lock`
 * `Unlock`
 
-在 `Lock` 及 `Unlock` 中間，會使其他的 goroutine 等待，確保此區塊中的變數安全。
+在 `Lock` 及 `Unlock` 中間，會使其他的 Goroutine 等待，確保此區塊中的變數安全。
 
 ### 藉由 Channel 保證變數的安全性
 
@@ -304,12 +305,12 @@ func main() {
 1000
 ```
 
-![total-channel](/assets/2020-03-05-goroutine-and-channel/total-channel.png)
+![total-channel](/assets/2020-03-08-goroutine-and-channel/total-channel.png)
 
-* goroutine1 拉出 `total` 後，channel 中沒有資料了
-* 因為 channel 中沒有資料，因此造成 goroutine2 等待
-* goroutine1 計算完成後，將 `total` 推入 channel
-* goroutine2 等到 channel 中有資料，拉出後結束等待，繼續做運算
+* goroutine1 拉出 `total` 後，Channel 中沒有資料了
+* 因為 Channel 中沒有資料，因此造成 goroutine2 等待
+* goroutine1 計算完成後，將 `total` 推入 Channel
+* goroutine2 等到 Channel 中有資料，拉出後結束等待，繼續做運算
 
 因為 Channel 推入及拉出時等待的特性，被拉出來做計算的值會保證是安全的。
 
@@ -319,11 +320,11 @@ func main() {
 
 ## Channel 介紹
 
-上面講了這麼多，大家應該對 Channel 的強大功能有點概念了，接著來深入了解一下 Channel。
+上面藉由兩個在多執行緒中重要的議題：**等待**及**變數的共享**，帶出 Channel 強大的處理能力，接著來深入了解一下 Channel。
 
 Channel 可以想成一條管線，這條管線可以推入數值，並且也可以將數值拉取出來。
 
-因為 Channel 會等待至另一端完成推入/拉出的動作後才會繼續往下處理，這樣的特性使其可以在 Goroutines 間同步的處理資料，而不用使用明確的 lock, unlock 等方法。
+因為 Channel 會等待至另一端完成推入/拉出的動作後才會繼續往下處理，這樣的特性使其可以在 Goroutines 間同步的處理資料，而不用使用明確的 `lock`, `unlock` 等方法。
 
 建立 Channel
 
@@ -346,11 +347,11 @@ Goroutine 使用 Channel 時有兩種情況會造成阻塞：
 
 * 將資料推入 Channel，但其他 Goroutine 還未拉取資料時，將資料推入的 Goroutine 會被迫等待其他 Goroutine 拉取資料才能往下執行
 
-![channel-sleep-push](/assets/2020-03-05-goroutine-and-channel/channel-sleep-push.png)
+![channel-sleep-push](/assets/2020-03-08-goroutine-and-channel/channel-sleep-push.png)
 
 * 當 Channel 中沒有資料，但要從中拉取時，想要拉取資料的 Goroutine 會被迫等待其他 Goroutine 推入資料並自己完成拉取後才能往下執行
 
-![channel-sleep-pull](/assets/2020-03-05-goroutine-and-channel/channel-sleep-pull.png)
+![channel-sleep-pull](/assets/2020-03-08-goroutine-and-channel/channel-sleep-pull.png)
 
 #### Goroutine 推資料入 Channel 時的等待情境
 
@@ -440,7 +441,7 @@ main goroutine finished
 
 使用 Unbuffered Channel 的壞處是：如果推入方的執行一次的時間較拉取方短，會造成推入方被迫等待拉取方才能在做下一次的處理，這樣的等待是不必要並且需要被避免的。
 
-為了解決推入方等待問題，可以使用另一種 Channel：Unbuffered Channel。
+為了解決推入方等待問題，可以使用另一種 Channel：Buffered Channel。
 
 ### Buffered Channel
 
@@ -448,11 +449,11 @@ main goroutine finished
 ch: make(chan int, 100)
 ```
 
-Buffered Channel 的宣告會在第二個參數中定義 buffer 的長度，它只會在 Buffered 中資料填滿以後才會阻塞造成等待，以上例來說：第101個資料推入的時候，推入方的 Goroutine 才會等待。
+Buffered Channel 的宣告會在第二個參數中定義 buffer 的長度，它只會在 Buffered 中資料填滿**以後**才會阻塞造成等待，以上例來說：第101個資料推入的時候，推入方的 Goroutine 才會等待。
 
-![buffered-channel](/assets/2020-03-05-goroutine-and-channel/buffered-channel.png)
+![buffered-channel](/assets/2020-03-08-goroutine-and-channel/buffered-channel.png)
 
-先來看個例子：
+下面的例子分別使用 Buffered Channel 跟 Unbuffered Channel 的差別：
 
 ```go
 // unbuffered-channel-error.go
@@ -463,11 +464,22 @@ func main() {
 }
 ```
 
+```bash
+fatal error: all goroutines are asleep - deadlock!
+
+goroutine 1 [chan send]:
+main.main()
+        /go/unbuffered-channel-error.go:9 +0x59
+exit status 2
+```
+
 上例使用 Unbuffered Channel：
 
-* 只有一條 goroutine：main
-* 推入 1 後因為還沒有其他 Goroutine 拉取，所以進入阻塞狀態
+* 只有一條 Goroutine：main
+* 推入 1 後因為還沒有其他 Goroutine 拉取 Channel 中的資料，所以進入阻塞狀態
 * 因為 main 已經在推入資料時阻塞，所以拉取的程式永遠不會被執行，造成死結
+
+![unbuffered-channel-error](/assets/2020-03-08-goroutine-and-channel/unbuffered-channel-error.png)
 
 在相同的情況下，Buffered Channel 並不會被阻塞：
 
@@ -480,14 +492,20 @@ func main() {
 }
 ```
 
+```bash
+1
+```
+
 原因是：
 
-* 推入 1 後 Channel 內的資料數並沒有超過 Buffer 的長度，所以不會被阻塞
+* 推入 1 後 Channel 內的資料數為1並沒有超過 Buffer 的長度1，所以不會被阻塞
 * 因為沒有阻塞，所以下一行拉取的程式碼可以被執行，並且完成執行
+
+![buffered-channel-work](/assets/2020-03-08-goroutine-and-channel/buffered-channel-work.png)
 
 ### Loop 中的 Channel
 
-在迴圈中的 Channel 可以藉由第二個回傳值 ok 確認 Channel 是否被關閉，如果被關閉的話代表此 Channel 已經不再使用，可以結束巡覽。
+在迴圈中的 Channel 可以藉由第二個回傳值 `ok` 確認 Channel 是否被關閉，如果被關閉的話代表此 Channel 已經不再使用，可以結束巡覽。
 
 ```go
 // for-loop.go
@@ -539,9 +557,9 @@ panic: send on closed channel
 
 > 為了避免將資料推入已關閉的 Channel 中造成 Panic，Channel 的關閉應該由推入的 Goroutine 處理。
 
-### Range 中的 Channel
+### range 中的 Channel
 
-Range 是可以巡覽 Channel 的，終止條件為 Channel 的狀態為關閉(Close)：
+`range` 是可以巡覽 Channel 的，終止條件為 Channel 的狀態為已關閉的(Closed)：
 
 ```go
 // range.go
@@ -559,11 +577,11 @@ func main() {
 }
 ```
 
-### 使用 Select 避免等待
+### 使用 select 避免等待
 
-在 Channel 推入/拉取時，會有一段等待的時間而造成 Goroutine 無法回應，如果此 Goroutine 是負責處理畫面的，使用者就會看到畫面 lag 的情況，這是我們不想讓他發生的。
+在 Channel 推入/拉取時，會有一段等待的時間而造成 Goroutine 無法回應，如果此 Goroutine 是負責處理畫面的，使用者就會看到畫面 lag 的情況，這是我們不想見的情況。
 
-以前面說到的例子說明：
+例如之前提到的例子：
 
 ```go
 // block.go
@@ -595,9 +613,9 @@ FINISH # main goroutine 解除阻塞
 main goroutine finished
 ```
 
-main goroutine 要拉取 ch 的資料時，會被迫等待，這時會無法回饋目前的狀態給使用者，造成卡頓的清況。
+main goroutine 要拉取 `ch` 的資料時，會被迫等待，這時會無法回饋目前的狀態給使用者，造成卡頓的清況。
 
-這時可以使用 Go 提供的 Select 語法，讓開發者可以很輕鬆的處理 Channel 的多種情況，包括阻塞時的處理。
+這時可以使用 Go 提供的 `select` 語法，讓開發者可以很輕鬆的處理 Channel 的多種情況，包括阻塞時的處理。
 
 ```go
 // select.go
@@ -636,13 +654,25 @@ calculate goroutine ends calculating
 main goroutine finished # main goroutine 解除阻塞並結束程式
 ```
 
-將剛剛的例子改為 `select` 來處理，可以使 channel 的推入/拉取不會阻塞：
+將剛剛的例子改為 `select` 來處理，可以使 Channel 的推入/拉取不會阻塞：
 
 * 會在沒有阻塞的情況下才會執行對應的區塊
 * `case <-ch:`: 會等到沒有阻塞情況時(`ch` 內有資料)才會執行
 * `default:`: 在所有的 `case` 都阻塞的情況下執行
 
 因為有 `default` 可以設置，當 Channel 阻塞時也可以藉由 `default` 輸出資訊讓使用者知道。
+
+## 總結
+
+一開始提到了單執行緒跟多執行緒的差別，接著帶出 Goroutine ，並介紹各種等待方式(`time.Sleep`, `sync.WaitGroup` 及 Channel)和執行緒間分享變數的問題(Race Condition)及解決方法(`sync.Mutex` 及 Channel)，從而帶出 Channel 在執行緒中方便強大的能力。
+
+再來講述 Channel 的使用方式，及其阻塞的時機(推入阻塞及拉取阻塞)，接著說明 Unbuffered 及 Buffered Channel 的差別，並且說明可以藉由 Unbuffered Channel 降低效能上的損失。
+
+Channel 傳回的第二個參數：`ok`，可以判斷此 Channel 是否已經關閉，並被 `range` 用在結束巡覽的判斷中。
+
+最後說明了 `select` 可以 Channel 在阻塞時讓 Goroutine 保持非阻塞的狀態避免卡頓。
+
+藉由 Goroutine 及 Channel 簡單的語法但是強大的能力使工程師開發多工程式的時候可以寫出優雅又易於維護的代碼，是 Go 語言的優勢之一。
 
 ## 參考資料
 

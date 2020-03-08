@@ -26,7 +26,7 @@ email: peterhsinpingchen@gmail.com
 #   Google search results) and in your feed.xml site description.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://peterhpchen.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-# twitter_username: ""
+twitter_username: peterhpchen
 github_username:  peterhpchen
 
 # Build settings
@@ -56,3 +56,5 @@ plugins:
 
 disqus:
   shortname: limitlessping
+
+timezone: Asia/Taipei
