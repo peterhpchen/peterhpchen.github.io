@@ -58,3 +58,5 @@ disqus:
   shortname: limitlessping
 
 timezone: Asia/Taipei
+
+google_analytics: UA-141751497-2
