@@ -1,0 +1,14 @@
+---
+layout: post
+title: 將footer element固定於網頁最下方
+date: '2014-11-07T00:58:00.000-08:00'
+author: Peter
+tags:
+- CSS
+- HTML
+modified_time: '2014-11-07T00:59:15.985-08:00'
+blogger_id: tag:blogger.com,1999:blog-8081092262828660128.post-4669078143211634759
+blogger_orig_url: https://limitlessping.blogspot.com/2014/11/footer-element.html
+---
+
+這篇是看完<a href="http://css-tricks.com/snippets/css/sticky-footer/">CSS-TRICKS的Sticky Footer</a>（要看程式碼請參考此連結）之後所理解出來的原理解釋。<br /><br /><h2>步驟</h2><br /><h3>1. 將網頁分為兩個部份：</h3><br /><ol><li>網頁主體（page-wrap）</li><li>頁腳區塊（site-footer）</li></ol><div><h3>2. 因為是對於margin所作的效果，所以先將其設為0。</h3></div><div><br /></div><div><h3>3. 將html及body的height設為100％是為了要將網頁設成視窗大小（如果小於視窗大小的話）。</h3></div><div><br /></div><div><h3>4. 將網頁主體min-height設為100％以符合html大小，而將margin-bottom設為你要的大小的負數，這裡將邊界往內凹，讓頁腳區塊也可以在100％的高度中，但這樣會產生一個問題，當你的網頁長度（height）超過視窗-頁腳區塊的大小時，網頁主體的內容會跟頁腳區塊重疊，為解決這問題，我們需要設置:after。</h3></div><div><br /></div><div><h3>5. 將網頁主體設定一個:after的區塊，這個after區塊要跟footer一樣大，after區塊會緊跟在page-wrap的內容之後（在page-wrap中），當然他也算在page-wrap的長度裡，這樣子我們就會給page-wrap一個跟site-footer一樣大小的block，也就是利用這個沒有內容（透明）的block去填補原本凹進去的地方，這樣子page-wrap的內容就不會跟site-footer重疊了。</h3></div>

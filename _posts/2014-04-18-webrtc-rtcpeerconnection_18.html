@@ -1,0 +1,14 @@
+---
+layout: post
+title: WebRTC二部曲-RTCPeerConnection-下部(實作)
+date: '2014-04-18T09:26:00.000-07:00'
+author: Peter
+tags:
+- JavaScript
+- WebRTC
+modified_time: '2014-04-18T09:26:46.231-07:00'
+blogger_id: tag:blogger.com,1999:blog-8081092262828660128.post-5828641105445965709
+blogger_orig_url: https://limitlessping.blogspot.com/2014/04/webrtc-rtcpeerconnection_18.html
+---
+
+<h2><span style="font-size: x-large;">平台</span></h2><div><ul><li>Visual studio 2012</li><li><a href="https://github.com/GoogleChrome/webrtc/blob/master/samples/web/js/adapter.js">adapter.js</a>(WebRTC跨平台的shim)</li></ul><h2><span style="font-size: x-large;">目的</span></h2>這次實作我們要在同一個視窗中開啟兩個視訊畫面，當我們按下<b>Start鍵</b>時我們可以在第一個畫面(Caller)將webcam抓到的畫面顯示，而當我們按下<b>Call鍵</b>時會利用RTCPeerConnection連線取得Stream顯示在第二個畫面(Callee)，而<b>HangUp鍵</b>就是關閉連線，雖然這樣做實際性不高，但這樣的Demo可以很清楚地了解RTCPeerConnection的運作原理。<br /><h2><span style="font-size: x-large;">實作</span></h2><h3><span style="font-size: large;">Step 0 : adapter.js</span></h3>在開始之前，我們要先解決一個擾人的問題-跨平台，就想我們在Demo getUserMedia的時候因為不同的Browser有不同的函式名稱，導致我們要去做一些處理才能確保他能在各個平台上運作，為了省去這樣的麻煩我們將使用adapter.js來cover這些問題。<br /><h3><span style="font-size: large;">Step 1 : html</span></h3>我們一開始先設置需要的js及tag<br /><br /><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=RTCPeerConnection.html"></script> <br /><h3><span style="font-size: large;">Step2 : RTCPeerConnectionDemo.js</span></h3><h4>添加onclick事件給每個Button</h4><div><br /></div><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=RTCPeerConnectionDemo.js"></script> <br /><h4>Start : 利用webcam取得畫面(聲音)</h4><div><br /></div><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=start.js"></script> <br /><h4>Call : 設置RTCPeerConnection</h4><div><br /></div><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=call.js"></script><span style="font-weight: normal;">1.設置Local跟Remote的Connection的handler</span><br /><div><ul><li>&nbsp;onicecandidate :&nbsp;還記得上次的圖中的送信人(candidate)嗎?onicecandidate就是在將找到的送信人給記起來</li></ul><ul><li>onaddstream(我們的demo中local peer並不需要接收stream所以local peer沒有此handler) : 當接收到stream時所要做的動作，在這裡我們將stream放到id為videoRemote的&lt;video&gt;中</li></ul><div><br /></div><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=setConnection.js"></script>2.將要傳送的stream放入connection中<br />3.建立offer及answer</div><div><ul><li>local Peer建立offer</li><li>將自己(local)的地址(local description)記下來</li><li>當對方(remote)收到地址(remote description)時記下來</li><li>對方(remote)也會把自己的地址(local description)記下來</li><li>對方(remote)發送answer給自己(local)</li><li>自己(local)會把對方的地址(remote description)記下來</li></ul><div><br /></div></div><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=setDescription.js"></script> <br /><h4>HangUp : 關閉連線</h4><div><br /></div><script src="https://gist.github.com/CodingCodeChen/11031349.js?file=hangUp.js"></script> <br /><div><h4><ol></ol></h4></div></div>

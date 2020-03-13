@@ -1,0 +1,14 @@
+---
+layout: post
+title: WebRTC二部曲-RTCPeerConnection-上部(架構介紹)
+date: '2014-04-03T19:26:00.000-07:00'
+author: Peter
+tags:
+- WebRTC
+modified_time: '2014-04-04T04:54:31.084-07:00'
+thumbnail: http://1.bp.blogspot.com/-6BPnIeGJjpE/Uz4M1PpP9qI/AAAAAAAAAIA/shoeCm1eBYE/s72-c/RTCPeerConnectionFlowChart.png
+blogger_id: tag:blogger.com,1999:blog-8081092262828660128.post-6918236469567322933
+blogger_orig_url: https://limitlessping.blogspot.com/2014/04/webrtc-rtcpeerconnection.html
+---
+
+RTCPeerConnection讓我們可以簡單的實現網頁上的p2p傳送機制，在接下來的文章中要帶大家來了解這個陌生的朋友<br /><h2><span style="font-size: x-large;">架構圖</span></h2><div>先看架構圖，待會看步驟會比較清楚</div><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-6BPnIeGJjpE/Uz4M1PpP9qI/AAAAAAAAAIA/shoeCm1eBYE/s1600/RTCPeerConnectionFlowChart.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://1.bp.blogspot.com/-6BPnIeGJjpE/Uz4M1PpP9qI/AAAAAAAAAIA/shoeCm1eBYE/s1600/RTCPeerConnectionFlowChart.png" height="185" width="400" /></a></div><h2><span style="font-size: x-large;">步驟</span></h2>在開始實作之前，我先來解釋RTCPeerConnection的運作步驟，我以擬人化的方式講解，應該比較可以理解 :<br /><br /><ol><li>有一天Peter(Caller)想要寫信(stream)給Sunny(Callee)</li><li>Peter(Caller)先將信封袋(RTCPeerConnection)給準備好，然後拿到自己家的資料(CreateOffer)並記下自己的地址(SDP)</li><li>但是Peter(Caller)並不知道Sunny(Callee)在哪裡，於是Peter(Caller)將自己的地址(SDP)送到一個收發站(server side)去等待Sunny(Callee)的到來</li><li>Sunny(Callee)她也想要跟Peter(Caller)寫信(stream)了，Sunny(Callee)到了收發站(server side)發現已經有Peter(Caller)的地址(SDP)了，於是Sunny(Callee)把Peter(Caller)的地址(SDP)記起來然後把自己的地址(SDP)寫在信封袋(RTCPeerConnection)上回傳給Peter(Caller)，這樣一來雙方都有對方和自己的地址(SDP)了</li><li>同時，由於Peter(Caller)及Sunny(Callee)他們都被困在城牆(NAT or Fire Wall)內，所以就必須要把信交給人力資源銀行(ICE server)，他們會找到可以送信的人(candidate)</li><li>於是Peter(Caller)和Sunny(Callee)終於可以藉由RTCPeerConnection傳信了，YA!!</li></ol>我覺得RTCPeerConnection最難的就在於要理解他的運行，只要了解了，我們實作起來就會輕鬆許多，所以這次就到這裡，先把這寫消化，我們下次再來講實作的部分。<br /><div><ul></ul></div>

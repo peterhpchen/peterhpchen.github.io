@@ -1,0 +1,14 @@
+---
+layout: post
+title: WebRTC-控制傳輸內容
+date: '2014-04-23T20:38:00.000-07:00'
+author: Peter
+tags:
+- JavaScript
+- WebRTC
+modified_time: '2014-05-17T09:27:20.858-07:00'
+blogger_id: tag:blogger.com,1999:blog-8081092262828660128.post-3207610445073153253
+blogger_orig_url: https://limitlessping.blogspot.com/2014/04/webrtc.html
+---
+
+在視訊電話時，我們有時會不想要讓對方聽到聲音或是看到影像，WebRTC中也有這種功能，以下是一個簡單的例子(使用<span style="background-color: white; font-family: 'Trebuchet MS', Trebuchet, Verdana, sans-serif;"><a href="http://limitlessping.blogspot.tw/2014/04/webrtc-rtcpeerconnection_18.html">WebRTC二部曲-RTCPeerConnection-下部(實作)</a>的例子過修改</span>)。<br /><h2><span style="font-size: x-large;">原理</span></h2><div>我們在上次的範例中直接將自己的資料流(localStream)傳給遠端，但因為local端和remote端都是同一個資料流，所以在改變資料流的內容的時候會連自己的都被改掉(你不想讓對方看到你的視訊影像，卻連自己都看不到自己的影像了)，所以我們就要先新增一個新的MediaStream專門給remote端使用，這樣我們就可以對這個remote端的資料流做處理也不會影響到local端的資料流了。</div><h2><span style="font-size: x-large;">實作</span></h2><h3><span style="font-size: large;">Step 1</span></h3>在<a href="http://limitlessping.blogspot.tw/2014/04/webrtc-rtcpeerconnection_18.html">上次</a>的例子中新增兩個check boxs :<br /><script src="https://gist.github.com/CodingCodeChen/11240463.js?file=checkboxs.html"></script> <br /><h3><span style="font-size: large;">Step 2</span></h3>新增onclick事件<br /><script src="https://gist.github.com/CodingCodeChen/11240463.js?file=disabledAudioAndVideo.js"></script>這裡我們利用getAudio(Video)Tracks()[0]來取得資料流的資訊，然後將enabled屬性做調整就可以達到控制的目的<br /><h3><span style="font-size: large;">Step 3</span></h3><div>將localStream複製成remoteStream丟給remote peer</div><script src="https://gist.github.com/CodingCodeChen/11240463.js?file=newmediastream.js"></script>
