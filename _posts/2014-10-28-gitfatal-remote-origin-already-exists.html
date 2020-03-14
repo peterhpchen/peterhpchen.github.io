@@ -9,6 +9,7 @@ modified_time: '2014-10-28T01:44:03.206-07:00'
 thumbnail: http://2.bp.blogspot.com/-JjhGU0z2WPM/VE9Uv0CxTaI/AAAAAAAAAXE/1kZwZl0ghAE/s72-c/fatal.bmp
 blogger_id: tag:blogger.com,1999:blog-8081092262828660128.post-6133952700301588972
 blogger_orig_url: https://limitlessping.blogspot.com/2014/10/gitfatal-remote-origin-already-exists.html
+permalink: /:year/:month/:title:output_ext
 ---
 
 在要把新的repository送上github的時候都會遇到[fatal: remote origin already exists.]的問題： <br /><table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto; text-align: center;"><tbody><tr><td style="text-align: center;"><a href="http://2.bp.blogspot.com/-JjhGU0z2WPM/VE9Uv0CxTaI/AAAAAAAAAXE/1kZwZl0ghAE/s1600/fatal.bmp" imageanchor="1" style="margin-left: auto; margin-right: auto;"><img border="0" src="http://2.bp.blogspot.com/-JjhGU0z2WPM/VE9Uv0CxTaI/AAAAAAAAAXE/1kZwZl0ghAE/s320/fatal.bmp" height="17" width="400" /></a></td></tr><tr><td class="tr-caption" style="text-align: center;">新增說明文字</td></tr></tbody></table>這時候有兩個方式可以解決：<br /><div>1. 改名(例：origin改成first)</div><div>2. 將origin的url改掉</div><div><br /></div><h2>第一個方式</h2><div>把</div><div>git remote add origin [url]</div><div>改成</div><div>git remote add first [url]</div><div><br /></div><h2>第二個方式</h2><div>利用set-url改掉origin的url</div><div>git remote set-url origin [url]</div><div><br /></div><h2>參考</h2><div><a href="http://stackoverflow.com/a/10904450/3493127">http://stackoverflow.com/a/10904450/3493127</a></div>

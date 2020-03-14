@@ -10,6 +10,7 @@ modified_time: '2014-10-28T01:27:30.586-07:00'
 thumbnail: http://2.bp.blogspot.com/-flTT9hZmmgc/VE9ChyzZkLI/AAAAAAAAAWs/My_oqtokvsc/s72-c/zippyshare.bmp
 blogger_id: tag:blogger.com,1999:blog-8081092262828660128.post-6730777778789669739
 blogger_orig_url: https://limitlessping.blogspot.com/2014/10/jsjson.html
+permalink: /:year/:month/:title:output_ext
 ---
 
 在解析網頁的時候常常要到其js或是json中去取得資料，像是下面這兩個例子：<br /><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-flTT9hZmmgc/VE9ChyzZkLI/AAAAAAAAAWs/My_oqtokvsc/s1600/zippyshare.bmp" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://2.bp.blogspot.com/-flTT9hZmmgc/VE9ChyzZkLI/AAAAAAAAAWs/My_oqtokvsc/s1600/zippyshare.bmp" height="40" width="400" /></a></div><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-l0KebB4Uz5Q/VE9CieRUTCI/AAAAAAAAAWw/l_tpqsknfjc/s1600/pixiv.bmp" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-l0KebB4Uz5Q/VE9CieRUTCI/AAAAAAAAAWw/l_tpqsknfjc/s1600/pixiv.bmp" height="15" width="400" /></a></div>因此我寫了一個處理的function，可以輕鬆地拿到想要的資料：<br /><br /><script src="https://gist.github.com/CodingCodeChen/8a59c95ef796570cbef5.js"></script><h2>步驟</h2><div>1. 將空白刪除。</div><div>2. 將跳脫字元處理好。</div><div>3. 取出再"="跟"；"之間的字串。</div><div><br /></div><h2>參考</h2><div><a href="http://stackoverflow.com/a/5963202/3493127">http://stackoverflow.com/a/5963202/3493127</a></div>
