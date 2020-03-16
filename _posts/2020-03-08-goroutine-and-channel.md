@@ -79,7 +79,7 @@ hello
 
 ## Goroutine 介紹
 
-可以想成建立了一個 Goroutine 就是建立了一個新的 Thread。
+可以想成建立了一個 Goroutine 就是建立了一個新的 Thread。
 
 ```go
 go f(x, y, z)
@@ -213,7 +213,7 @@ func main() {
 
 ## 多執行緒下的共享變數
 
-在執行緒間使用同樣的變數時，最重要的是確保變數在當前的正確性，在沒有控制的情況下極有可能發生問題，下面有個例子：
+在執行緒間使用同樣的變數時，最重要的是確保變數在當前的正確性，在沒有控制的情況下極有可能發生問題，下面有個例子：
 
 ```go
 // total-error.go
@@ -283,7 +283,7 @@ func main() {
 
 在 `Lock` 及 `Unlock` 中間，會使其他的 Goroutine 等待，確保此區塊中的變數安全。
 
-### 藉由 Channel 保證變數的安全性
+### 藉由 Channel 保證變數的安全性
 
 ```go
 // total-channel.go
@@ -324,7 +324,7 @@ func main() {
 
 Channel 可以想成一條管線，這條管線可以推入數值，並且也可以將數值拉取出來。
 
-因為 Channel 會等待至另一端完成推入/拉出的動作後才會繼續往下處理，這樣的特性使其可以在 Goroutines 間同步的處理資料，而不用使用明確的 `lock`, `unlock` 等方法。
+因為 Channel 會等待至另一端完成推入/拉出的動作後才會繼續往下處理，這樣的特性使其可以在 Goroutines 間同步的處理資料，而不用使用明確的 `lock`, `unlock` 等方法。
 
 建立 Channel
 
@@ -334,7 +334,7 @@ ch := make(chan int) // 建立 int 型別的 Channel
 
 推入/拉出 Channel 內的值，使用 `<-` 箭頭運算子：
 
-* Channel 在 `<-` 左邊：將箭頭右邊的數值推入 Channel 中
+* Channel 在 `<-` 左邊：將箭頭右邊的數值推入 Channel 中
 
 ```go
 ch <- v    // Send v to channel ch.
@@ -389,7 +389,7 @@ main goroutine finished
 
 * calculate 會先執行並且計算完成
 * calculate 將 `FINISH` 訊號推入 Channel
-* 但由於目前 main 還未拉取 Channel 中的資料，所以 calculate 會被迫等待，因此 calculate 的最後一行 `fmt.Println("main goroutine finished")` 沒有馬上輸出在畫面上
+* 但由於目前 main 還未拉取 Channel 中的資料，所以 calculate 會被迫等待，因此 calculate 的最後一行 `fmt.Println("main goroutine finished")` 沒有馬上輸出在畫面上
 * main 拉取了 Channel 中的資料
 * calculate 執行`fmt.Println("main goroutine finished")` 並結束
 * main 執行完成
@@ -434,7 +434,7 @@ main goroutine finished
 
 ### Unbuffered Channel
 
-前面一直提到的是 Unbuffered Channel，此種 Channel 只要
+前面一直提到的是 Unbuffered Channel，此種 Channel 只要
 
 * 推入一個資料會造成推入方的等待
 * 拉出時沒有資料會造成拉出方的等待
@@ -664,7 +664,7 @@ main goroutine finished # main goroutine 解除阻塞並結束程式
 
 ## 總結
 
-一開始提到了單執行緒跟多執行緒的差別，接著帶出 Goroutine ，並介紹各種等待方式(`time.Sleep`, `sync.WaitGroup` 及 Channel)和執行緒間分享變數的問題(Race Condition)及解決方法(`sync.Mutex` 及 Channel)，從而帶出 Channel 在執行緒中方便強大的能力。
+一開始提到了單執行緒跟多執行緒的差別，接著帶出 Goroutine ，並介紹各種等待方式(`time.Sleep`, `sync.WaitGroup` 及 Channel)和執行緒間分享變數的問題(Race Condition)及解決方法(`sync.Mutex` 及 Channel)，從而帶出 Channel 在執行緒中方便強大的能力。
 
 再來講述 Channel 的使用方式，及其阻塞的時機(推入阻塞及拉取阻塞)，接著說明 Unbuffered 及 Buffered Channel 的差別，並且說明可以藉由 Unbuffered Channel 降低效能上的損失。
 

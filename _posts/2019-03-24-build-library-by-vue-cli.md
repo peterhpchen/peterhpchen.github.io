@@ -20,7 +20,7 @@ tags: [vue, vue-cli]
 
 ## 建置腳本
 
-等到都開發完了以後，就要做建置的動作，建置時我們不能使用平常的專案建置方式，而是要改為使用建置 plugin 的方式。
+等到都開發完了以後，就要做建置的動作，建置時我們不能使用平常的專案建置方式，而是要改為使用建置 plugin 的方式。
 
 * 在 `src/components` 資料夾下建立 `index.js` :
 
@@ -132,7 +132,7 @@ dist/v-triangle.common.js     61.08 KiB              13.45 KiB
 npm publish
 ```
 
-接著就可以在 npm 上看到剛剛上傳的 package 了。
+接著就可以在 npm 上看到剛剛上傳的 package 了。
 
 ## Demo
 
