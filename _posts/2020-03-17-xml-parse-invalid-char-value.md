@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "XML 解析時遭遇非法字元錯誤"
-tags: [xml, bug-fix]
+tags: [xml, debug]
 ---
 
 使用 `jekyll-feed` 所產生的 `feed.xml` 出現 **PCDATA invalid Char value 8** 錯誤，造成解析失敗。
