@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "做個開源專案的貢獻者吧！"
-tags: [github]
+title: "當個開源專案的貢獻者吧！"
+tags: [github, git, open-source]
 ---
 
 開發時遇到困難時，你會怎麼做呢？相信大部分的人都跟我一樣： **Google** ，那你有想過 Google 上的資源都是怎麼來的嗎？
