@@ -37,7 +37,7 @@ tags: [github, git, open-source]
 * Clone : 將專案 Clone 到本機
 * Checkout : 建立 feature / bugfix branch
 * Code : 寫程式或是編輯文件
-* Commit : 提交修改
+* Commit : 提交修改
 * Push : 將 Commit 推回遠端
 * Pull Request : 對原專案發送 PR
 * Wait : 等待專案成員接受 PR 或是回饋
@@ -60,7 +60,7 @@ tags: [github, git, open-source]
 
 ![fork](/assets/2020-03-21-be-a-open-source-contributor/fork.png)
 
-完成後會在你的帳號下會有一個一樣名字的專案。
+完成後會在你的帳號下會有一個一樣名字的專案。
 
 ![repo](/assets/2020-03-21-be-a-open-source-contributor/repo.png)
 
@@ -98,9 +98,9 @@ git checkout -b fix-typo
 
 泡杯咖啡並開啟編輯器修復問題/開發功能吧。
 
-### Commit : 提交修改
+### Commit : 提交修改
 
-將修改的檔案提交。
+將修改的檔案提交。
 
 ```bash
 git add README.md
