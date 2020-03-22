@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "客製 Jekyll 的 minima 主題 style"
-tags: [github, git, open-source]
+tags: [jekyll, jekyll-theme]
 ---
 
-使用 GitHub Page 建立自己的網頁時， Jekyll 的 [minima](https://github.com/jekyll/minima) 是個很好的入門選擇，因為 GitHub Page 預設的使用的 static generator ，而 minima 也是 Jekyll 預設的主題，所以 minima 常常會是開發者第一個接觸到的 Jekyll 主題，並且它小而全的特性使得修改可以很輕鬆，這篇會介紹要怎麼修改 minima 主題的樣式。
+使用 GitHub Page 建立自己的網頁時， Jekyll 的 [minima](https://github.com/jekyll/minima) 是個很好的入門選擇，因為 GitHub Page 預設的使用的 static generator ，而 minima 也是 Jekyll 預設的主題，所以 minima 常常會是開發者第一個接觸到的 Jekyll 主題，並且它小而全的特性使得修改可以很輕鬆，這篇會介紹要怎麼修改 minima 主題的樣式。
 
 ## Jekyll 主題種類區別
 
