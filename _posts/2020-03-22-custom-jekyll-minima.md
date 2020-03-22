@@ -17,7 +17,7 @@ minima 是屬於 gem-based 的主題。
 
 ## 找到 minima 主題的檔案
 
-如果是 regular theme ，直接打開樣式表編輯即可，但因 minima 是 gem-based theme ，所以檔案會存在 gem 中，這時就需要找出樣式表的內容。
+如果是 regular theme ，直接打開樣式表編輯即可，但因 minima 是 gem-based theme ，所以檔案會存在 gem 中，這時就需要找出樣式表的內容。
 
 ### 從 gem 上抓取
 
