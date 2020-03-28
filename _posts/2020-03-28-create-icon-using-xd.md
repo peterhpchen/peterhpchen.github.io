@@ -116,7 +116,7 @@ Ellipse 畫出圓形，按著 `Shift` 拉的話可以畫出正圓形。
 
 ![triangle](/assets/2020-03-28-create-icon-using-xd/triangle.png)
 
-拉動內部的**虛點**可以改變角的弧度：
+拉動內部的**虛點**可以改變角的弧度：
 
 ![triangle-angle](/assets/2020-03-28-create-icon-using-xd/triangle-angle.png)
 
@@ -136,7 +136,7 @@ Line 畫出直線，按著 `Shift` 拉的話可以畫出水平, 垂直及 45 度
 
 ### Pen
 
-Pen 可以畫出隨意的線條，點一下為線的起始，直到按下 `esc` 結束或連回起始點形成圖形。
+Pen 可以畫出隨意的線條，點一下為線的起始，直到按下 `esc` 結束或連回起始點形成圖形。
 
 ![pen](/assets/2020-03-28-create-icon-using-xd/pen.png)
 
