@@ -1,24 +1,30 @@
-# Limitless Ping - Peter's personal blog
+# Astro Starter Kit: Portfolio
 
-## 建置
-
-產生靜態網頁。
-
-```bash
-docker run --rm -v $(PWD):/srv/jekyll -v $(pwd)/vendor/bundle:/usr/local/bundle -it jekyll/jekyll jekyll build
+```
+npm create astro@latest -- --template portfolio
 ```
 
-* `-v $(PWD):/srv/jekyll` : 將 Host 中的檔案丟入 Container 中
-* `-v $(pwd)/vendor/bundle:/usr/local/bundle` : 將 Container 中建置使用的檔案保留在 Host 中做 Cache，提升建置速度
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/portfolio)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/s/github/withastro/astro/tree/latest/examples/portfolio)
 
-## 寫文章
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-修改文章時可以即時看到修改後的網頁。
+![portfolio](https://user-images.githubusercontent.com/4677417/186189473-03dda103-65d3-4220-8b60-180ccaee5939.png)
 
-```bash
-docker run --rm -v $(PWD):/srv/jekyll -v $(pwd)/vendor/bundle:/usr/local/bundle -it -p 4000:4000 jekyll/jekyll jekyll serve
-```
 
-* `-p 4000:4000` : Container 中的 4000 port 對應至 Host 的 4000 port
+## 🧞 Commands
 
-直接瀏覽 localhost:4000 看建置後的頁面。
+All commands are run from the root of the project, from a terminal:
+
+| Command                | Action                                           |
+| :--------------------- | :----------------------------------------------- |
+| `npm install`          | Installs dependencies                            |
+| `npm run dev`          | Starts local dev server at `localhost:3000`      |
+| `npm run build`        | Build your production site to `./dist/`          |
+| `npm run preview`      | Preview your build locally, before deploying     |
+| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
