@@ -1,8 +1,7 @@
 {
-  "name": "@example/portfolio",
+  "name": "cosmic-corot",
   "type": "module",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -11,12 +10,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^3.0.1",
-    "astro": "^2.0.17",
-    "daisyui": "^2.51.3",
-    "tailwindcss": "^3.2.7"
-  },
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9"
+    "astro": "^2.5.6"
   }
 }
