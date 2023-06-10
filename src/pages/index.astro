@@ -27,14 +27,18 @@ const projects = (await getCollection('work'))
 
 <BaseLayout>
 	<div class="stack gap-20 lg:gap-48">
+	<!-- <div class="flex flex-col gap-20 lg:gap-48"> -->
 		<div class="wrapper stack gap-8 lg:gap-20">
+		<!-- <div class="w-full max-w-7xl ms-auto me-auto ps-6 pe-6 flex flex-col gap-8 lg:gap-20"> -->
 			<header class="hero">
+			<!-- <header class="flex flex-col items-center gap-8"> -->
 				<Hero
 					title="Hello, my name is Jeanine White"
 					tagline="I am a Creative Developer who is currently based in Portland, Oregon."
 					align="start"
 				>
 					<div class="roles">
+					<!-- <div class="hidden"> -->
 						<Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
 						<Pill><Icon icon="microphone-stage" size="1.33em" /> Speaker</Pill>
 						<Pill><Icon icon="pencil-line" size="1.33em" /> Writer</Pill>
@@ -53,7 +57,9 @@ const projects = (await getCollection('work'))
 		</div>
 
 		<main class="wrapper stack gap-20 lg:gap-48">
+		<!-- <main class="w-full max-w-7xl ms-auto me-auto ps-6 pe-6 flex flex-col gap-20 lg:gap-48"> -->
 			<section class="section with-background with-cta">
+			<!-- <section class="grid gap-8 lg:grid-cols-4 relative lg:grid-areas-cta"> -->
 				<header class="section-header stack gap-2 lg:gap-4">
 					<h3>Selected Work</h3>
 					<p>Take a look below at some of my featured work for clients from the past few years.</p>
@@ -108,143 +114,143 @@ const projects = (await getCollection('work'))
 
 <style>
 	.hero {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
+		display: flex; /* flex */
+		flex-direction: column; /* flex-col */
+		align-items: center; /* items-center */
+		gap: 2rem; /* gap-8 */
 	}
 
 	.roles {
-		display: none;
+		display: none; /* hidden */
 	}
 
 	.hero img {
-		aspect-ratio: 5 / 4;
-		object-fit: cover;
-		object-position: top;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
+		aspect-ratio: 5 / 4; /* aspect-[5/4] */
+		object-fit: cover; /* object-cover */
+		object-position: top; /* object-top */
+		border-radius: 1.5rem; /* rounded-3xl */
+		box-shadow: var(--shadow-md); /* shadow-[--shadow-md] */
 	}
 
-	@media (min-width: 50em) {
+	@media (min-width: 50em /* lg */) {
 		.hero {
-			display: grid;
-			grid-template-columns: 6fr 4fr;
-			padding-inline: 2.5rem;
-			gap: 3.75rem;
+			display: grid; /* lg:grid */
+			grid-template-columns: 6fr 4fr; /* lg:grid-cols-[6fr_4fr] */
+			padding-inline: 2.5rem; /* lg:ps-10 lg:pe-10 */
+			gap: 3.75rem; /* lg:gap-[3.75rem] */
 		}
 
 		.roles {
-			margin-top: 0.5rem;
-			display: flex;
-			gap: 0.5rem;
+			margin-top: 0.5rem; /* lg:mt-2 */
+			display: flex; /* lg:flex */
+			gap: 0.5rem; /* lg:gap-2 */
 		}
 
 		.hero img {
-			aspect-ratio: 3 / 4;
-			border-radius: 4.5rem;
-			object-fit: cover;
+			aspect-ratio: 3 / 4; /* lg:aspect-[3/4] */
+			border-radius: 4.5rem; /* lg:rounded-[4.5rem] */
+			object-fit: cover; /* lg:object-cover */
 		}
 	}
 
 	/* ====================================================== */
 
 	.section {
-		display: grid;
-		gap: 2rem;
+		display: grid; /* grid */
+		gap: 2rem; /* gap-8 */
 	}
 
 	.with-background {
-		position: relative;
+		position: relative; /* relative */
 	}
 
-	.with-background::before {
+	.with-background::before /* before: */ {
 		--hero-bg: var(--bg-image-subtle-2);
 
-		content: '';
-		position: absolute;
-		pointer-events: none;
-		left: 50%;
-		width: 100vw;
-		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
-		transform: translateY(-75%) translateX(-50%);
+		content: ''; /* before:content-[''] */
+		position: absolute; /* before:absolute */
+		pointer-events: none; /* before:pointer-events-none */
+		left: 50%; /* before:left-1/2 */
+		width: 100vw; /* before:w-screen */
+		aspect-ratio: calc(2.25 / var(--bg-scale)); /* before:aspect-[2.25/--bg-scale] */
+		top: 0; /* before:top-0 */
+		transform: translateY(-75%) translateX(-50%); /* before:-translate-y-3/4 before:-translate-x-1/2 */
 		background: url('/assets/backgrounds/noise.png') top center/220px repeat,
 			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat, var(--gray-999);
-		background-blend-mode: overlay, normal, normal, normal;
-		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1;
+		background-blend-mode: overlay, normal, normal, normal; /* before:bg-blend-overlay before:bg-blend-normal before:bg-blend-normal before:bg-blend-normal */
+		mix-blend-mode: var(--bg-blend-mode); /* before:mix-blend-[--bg-blend-mode] */
+		z-index: -1; /* before:-z-[1] */
 	}
 
-	.with-background.bg-variant::before {
+	.with-background.bg-variant::before /* before: */ {
 		--hero-bg: var(--bg-image-subtle-1);
 	}
 
 	.section-header {
-		justify-self: center;
-		text-align: center;
-		max-width: 50ch;
-		font-size: var(--text-md);
-		color: var(--gray-300);
+		justify-self: center; /* justify-self-center */
+		text-align: center; /* text-center */
+		max-width: 50ch; /* max-w-[50ch] */
+		font-size: var(--text-md); /* text-[--text-md] */
+		color: var(--gray-300); /* ! */
 	}
 
 	.section-header h3 {
-		font-size: var(--text-2xl);
+		font-size: var(--text-2xl); /* text-[--text-2xl] */
 	}
 
-	@media (min-width: 50em) {
+	@media (min-width: 50em /* lg */) {
 		.section {
-			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 5rem;
+			grid-template-columns: repeat(4, 1fr); /* grid-cols-4 */
+			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery'; /* grid-areas-normal */
+			gap: 5rem; /* gap-20 */
 		}
 
 		.section.with-cta {
-			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery';
+			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery'; /* grid-areas-cta */
 		}
 
 		.section-header {
-			grid-area: header;
-			font-size: var(--text-lg);
+			grid-area: header; /* grid-in-header ! */
+			font-size: var(--text-lg); /* text-[--text-lg] */
 		}
 
 		.section-header h3 {
-			font-size: var(--text-4xl);
+			font-size: var(--text-4xl); /* text-[--text-4xl] */
 		}
 
 		.with-cta .section-header {
-			justify-self: flex-start;
-			text-align: left;
+			justify-self: flex-start; /* justify-self-[flex-start] ! */
+			text-align: left; /* text-left */
 		}
 
 		.gallery {
-			grid-area: gallery;
+			grid-area: gallery; /* grid-in-gallery ! */
 		}
 
 		.cta {
-			grid-area: cta;
+			grid-area: cta; /* grid-in-cta ! */
 		}
 	}
 
 	/* ====================================================== */
 
 	.mention-card {
-		display: flex;
-		height: 7rem;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		border: 1px solid var(--gray-800);
-		border-radius: 1.5rem;
-		color: var(--gray-300);
-		background: var(--gradient-subtle);
-		box-shadow: var(--shadow-sm);
+		display: flex; /* flex */
+		height: 7rem; /* h-28 */
+		justify-content: center; /* justify-center */
+		align-items: center; /* items-center */
+		text-align: center; /* text-center */
+		border: 1px solid var(--gray-800); /* border border-solid border-[--gray-800] */
+		border-radius: 1.5rem; /* rounded-3xl */
+		color: var(--gray-300); /* ! */
+		background: var(--gradient-subtle); /* ! */
+		box-shadow: var(--shadow-sm); /* shadow-[--shadow-sm] */
 	}
 
-	@media (min-width: 50em) {
+	@media (min-width: 50em) /* lg */ {
 		.mention-card {
-			border-radius: 1.5rem;
-			height: 9.5rem;
+			border-radius: 1.5rem; /* rounded-3xl */
+			height: 9.5rem; /* h-[9.5rem] */
 		}
 	}
 </style>
