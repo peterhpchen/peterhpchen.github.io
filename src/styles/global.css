@@ -190,17 +190,3 @@ h4 {
 h5 {
   font-size: var(--text-xl);
 }
-
-/* Utilities */
-
-.wrapper {
-  width: 100%; /* w-full */
-  max-width: 83rem; /* max-w-7xl */
-  margin-inline: auto; /* ms-auto me-auto */
-  padding-inline: 1.5rem; /* ps-6 pe-6 */
-}
-
-.stack {
-  display: flex; /* flex */
-  flex-direction: column; /* flex-col */
-}
