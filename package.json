@@ -16,6 +16,9 @@
   },
   "devDependencies": {
     "@savvywombat/tailwindcss-grid-areas": "^3.0.1",
+    "prettier": "^2.8.8",
+    "prettier-plugin-astro": "^0.10.0",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwind-clip-path": "^1.0.0"
   }
 }
