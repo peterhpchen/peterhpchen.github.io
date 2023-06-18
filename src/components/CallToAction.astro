@@ -6,27 +6,20 @@ interface Props {
 const { href } = Astro.props;
 ---
 
-<a href={href}><slot /></a>
+<a href={href} class="relative flex place-content-center text-center py-[0.56em]
+px-[2em] gap-[0.8em] text-[color:var(--accent-text-over)] no-underline
+leading-[1.1] rounded-[999rem] overflow-hidden whitespace-nowrap
+after:content-[''] after:absolute after:inset-0 after:pointer-events-none
+after:mix-blend-overlay lg:py-[1.125rem] lg:px-10
+lg:text-[length:var(--text-xl)] "><slot /></a>
 
 <style>
 	a {
-		position: relative;
-		display: flex;
-		place-content: center;
-		text-align: center;
-		padding: 0.56em 2em;
-		gap: 0.8em;
-		color: var(--accent-text-over);
-		text-decoration: none;
-		line-height: 1.1;
-		border-radius: 999rem;
-		overflow: hidden;
-		background: var(--gradient-accent-orange);
-		box-shadow: var(--shadow-md);
-		white-space: nowrap;
+		background: var(--gradient-accent-orange); /* ! */
+		box-shadow: var(--shadow-md); /* ! */
 	}
 
-	@media (min-width: 20em) {
+	@media (min-width: 20em /* ! */) {
 		a {
 			font-size: var(--text-lg);
 		}
@@ -34,23 +27,11 @@ const { href } = Astro.props;
 
 	/* Overlay for hover effects. */
 	a::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		transition: background-color var(--theme-transition);
-		mix-blend-mode: overlay;
+		transition: background-color var(--theme-transition); /* ! */
 	}
 
 	a:focus::after,
 	a:hover::after {
-		background-color: hsla(var(--gray-999-basis), 0.3);
-	}
-
-	@media (min-width: 50em) {
-		a {
-			padding: 1.125rem 2.5rem;
-			font-size: var(--text-xl);
-		}
+		background-color: hsla(var(--gray-999-basis), 0.3); /* ! */
 	}
 </style>
