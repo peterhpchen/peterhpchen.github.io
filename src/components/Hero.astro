@@ -1,54 +1,35 @@
 ---
 interface Props {
-	title: string;
-	tagline?: string;
-	align?: 'start' | 'center';
+  title: string;
+  tagline?: string;
+  align?: "start" | "center";
 }
 
-const { align = 'center', tagline, title } = Astro.props;
+const { align = "center", tagline, title } = Astro.props;
 ---
 
-<header class:list={['hero flex flex-col gap-4', align]}>
-	<div class="flex flex-col gap-2">
-		<h1 class="title">{title}</h1>
-		{tagline && <p class="tagline">{tagline}</p>}
-	</div>
-	<slot />
+<header
+  class:list={[
+    "text-[length:var(--text-lg)] text-center flex flex-col gap-4 max-w-[37ch] ms-auto me-auto lg:text-[length:var(--text-xl)]",
+    align === "start" ? "lg:text-start" : "",
+  ]}
+>
+  <div class="flex flex-col gap-2">
+    <h1
+      class="title text-[length:var(--text-3xl)] text-[color:var(--gray-0)] lg:text-[length:var(--text-5xl)]"
+    >
+      {title}
+    </h1>
+    {tagline && <p class="tagline">{tagline}</p>}
+  </div>
+  <slot />
 </header>
 
 <style>
-	.hero {
-		font-size: var(--text-lg);
-		text-align: center;
-	}
-
-	.title,
-	.tagline {
-		max-width: 37ch;
-		margin-inline: auto;
-	}
-
-	.title {
-		font-size: var(--text-3xl);
-		color: var(--gray-0);
-	}
-
-	@media (min-width: 50em) {
-		.hero {
-			font-size: var(--text-xl);
-		}
-
-		.start {
-			text-align: start;
-		}
-
-		.start .title,
-		.start .tagline {
-			margin-inline: unset;
-		}
-
-		.title {
-			font-size: var(--text-5xl);
-		}
-	}
+  @media (min-width: 50em) {
+    .start .title,
+    .start .tagline {
+      margin-inline: unset;
+    }
+  }
 </style>
