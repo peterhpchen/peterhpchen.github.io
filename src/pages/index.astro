@@ -1,256 +1,178 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
 // Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 // Component Imports
-import CallToAction from '../components/CallToAction.astro';
-import Grid from '../components/Grid.astro';
-import Hero from '../components/Hero.astro';
-import Icon from '../components/Icon.astro';
-import Pill from '../components/Pill.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
+import CallToAction from "../components/CallToAction.astro";
+import Grid from "../components/Grid.astro";
+import Hero from "../components/Hero.astro";
+import Icon from "../components/Icon.astro";
+import Pill from "../components/Pill.astro";
+import PortfolioPreview from "../components/PortfolioPreview.astro";
 
 // Page section components
-import ContactCTA from '../components/ContactCTA.astro';
-import Skills from '../components/Skills.astro';
+import ContactCTA from "../components/ContactCTA.astro";
+import Skills from "../components/Skills.astro";
 
 // Content Fetching: List four most recent work projects
-const projects = (await getCollection('work'))
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-	.slice(0, 4);
+const projects = (await getCollection("work"))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .slice(0, 4);
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
 ---
 
 <BaseLayout>
-	<div class="flex flex-col gap-20 lg:gap-48">
-	<!-- <div class="flex flex-col gap-20 lg:gap-48"> -->
-		<div class="w-full max-w-[83rem] ms-auto me-auto ps-6 pe-6 flex flex-col gap-8 lg:gap-20">
-		<!-- <div class="w-full max-w-7xl ms-auto me-auto ps-6 pe-6 flex flex-col gap-8 lg:gap-20"> -->
-			<header class="hero">
-			<!-- <header class="flex flex-col items-center gap-8"> -->
-				<Hero
-					title="Hello, my name is Jeanine White"
-					tagline="I am a Creative Developer who is currently based in Portland, Oregon."
-					align="start"
-				>
-					<div class="roles">
-					<!-- <div class="hidden"> -->
-						<Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
-						<Pill><Icon icon="microphone-stage" size="1.33em" /> Speaker</Pill>
-						<Pill><Icon icon="pencil-line" size="1.33em" /> Writer</Pill>
-					</div>
-				</Hero>
+  <div class="flex flex-col gap-20 lg:gap-48">
+    <div
+      class="me-auto ms-auto flex w-full max-w-[83rem] flex-col gap-8 pe-6 ps-6 lg:gap-20"
+    >
+      <header
+        class="hero flex flex-col items-center gap-8 lg:grid lg:grid-cols-[6fr_4fr] lg:gap-[3.75rem] lg:pe-10 lg:ps-10"
+      >
+        <Hero
+          title="Hello, my name is Jeanine White"
+          tagline="I am a Creative Developer who is currently based in Portland, Oregon."
+          align="start"
+        >
+          <div class="roles hidden lg:mt-2 lg:flex lg:gap-2">
+            <Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
+            <Pill><Icon icon="microphone-stage" size="1.33em" /> Speaker</Pill>
+            <Pill><Icon icon="pencil-line" size="1.33em" /> Writer</Pill>
+          </div>
+        </Hero>
 
-				<img
-					alt="Jeanine White smiling in a red plaid shirt and tortoise shell glasses"
-					width="480"
-					height="620"
-					src="/assets/portrait.jpg"
-				/>
-			</header>
+        <img
+          alt="Jeanine White smiling in a red plaid shirt and tortoise shell glasses"
+          width="480"
+          height="620"
+          src="/assets/portrait.jpg"
+          class="aspect-[5/4] rounded-3xl object-cover object-top lg:aspect-[3/4] lg:rounded-[4.5rem] lg:object-cover"
+        />
+      </header>
 
-			<Skills />
-		</div>
+      <Skills />
+    </div>
 
-		<main class="w-full max-w-[83rem] ms-auto me-auto ps-6 pe-6 flex flex-col gap-20 lg:gap-48">
-		<!-- <main class="w-full max-w-7xl ms-auto me-auto ps-6 pe-6 flex flex-col gap-20 lg:gap-48"> -->
-			<section class="section with-background with-cta">
-			<!-- <section class="grid gap-8 lg:grid-cols-4 relative lg:grid-areas-cta"> -->
-				<header class="section-header flex flex-col gap-2 lg:gap-4">
-					<h3>Selected Work</h3>
-					<p>Take a look below at some of my featured work for clients from the past few years.</p>
-				</header>
+    <main
+      class="me-auto ms-auto flex w-full max-w-[83rem] flex-col gap-20 pe-6 ps-6 lg:gap-48"
+    >
+      <section
+        class="section with-background relative grid gap-8 before:pointer-events-none before:absolute before:left-1/2 before:top-0 before:-z-[1] before:aspect-[2.25/var(--bg-scale)] before:w-screen before:-translate-x-1/2 before:-translate-y-3/4 before:content-[''] lg:grid-cols-[repeat(4,_1fr)] lg:gap-20 lg:grid-areas-cta"
+      >
+        <header
+          class="flex max-w-[50ch] flex-col gap-2 justify-self-center text-center text-[length:var(--text-md)] text-[color:var(--gray-300)] lg:gap-4 lg:justify-self-start lg:text-left lg:text-[length:var(--text-lg)] lg:grid-in-header"
+        >
+          <h3
+            class="text-[length:var(--text-2xl)] lg:text-[length:var(--text-4xl)]"
+          >
+            Selected Work
+          </h3>
+          <p>
+            Take a look below at some of my featured work for clients from the
+            past few years.
+          </p>
+        </header>
 
-				<div class="gallery">
-					<Grid variant="offset">
-						{
-							projects.map((project) => (
-								<li>
-									<PortfolioPreview project={project} />
-								</li>
-							))
-						}
-					</Grid>
-				</div>
+        <div class="gallery">
+          <Grid variant="offset">
+            {
+              projects.map((project) => (
+                <li>
+                  <PortfolioPreview project={project} />
+                </li>
+              ))
+            }
+          </Grid>
+        </div>
 
-				<div class="cta">
-					<CallToAction href="/work/">
-						View All
-						<Icon icon="arrow-right" size="1.2em" />
-					</CallToAction>
-				</div>
-			</section>
+        <div class="cta">
+          <CallToAction href="/work/">
+            View All
+            <Icon icon="arrow-right" size="1.2em" />
+          </CallToAction>
+        </div>
+      </section>
 
-			<section class="section with-background bg-variant">
-				<header class="section-header flex flex-col gap-2 lg:gap-4">
-					<h3>Mentions</h3>
-					<p>
-						I have been fortunate enough to recieve praise for my work in several publications. Take
-						a look below to learn more.
-					</p>
-				</header>
+      <section
+        class="section with-background bg-variant relative grid gap-8 before:pointer-events-none before:absolute before:left-1/2 before:top-0 before:-z-[1] before:aspect-[2.25/var(--bg-scale)] before:w-screen before:-translate-x-1/2 before:-translate-y-3/4 before:content-[''] lg:grid-cols-[repeat(4,_1fr)] lg:gap-20 lg:grid-areas-normal"
+      >
+        <header
+          class="flex max-w-[50ch] flex-col gap-2 justify-self-center text-center text-[length:var(--text-md)] text-[color:var(--gray-300)] lg:gap-4 lg:text-[length:var(--text-lg)] lg:grid-in-header"
+        >
+          <h3
+            class="text-[length:var(--text-2xl)] lg:text-[length:var(--text-4xl)]"
+          >
+            Mentions
+          </h3>
+          <p>
+            I have been fortunate enough to recieve praise for my work in
+            several publications. Take a look below to learn more.
+          </p>
+        </header>
 
-				<div class="gallery">
-					<Grid variant="small">
-						{
-							['Medium', 'BuzzFeed', 'The Next Web', 'awwwards.', 'TechCrunch'].map((brand) => (
-								<li class="mention-card">
-									<p>{brand}</p>
-								</li>
-							))
-						}
-					</Grid>
-				</div>
-			</section>
-		</main>
+        <div class="gallery">
+          <Grid variant="small">
+            {
+              [
+                "Medium",
+                "BuzzFeed",
+                "The Next Web",
+                "awwwards.",
+                "TechCrunch",
+              ].map((brand) => (
+                <li class="mention-card flex h-28 items-center justify-center rounded-3xl border border-solid border-[color:var(--gray-800)] text-center text-[color:var(--gray-300)] lg:h-[9.5rem] lg:rounded-3xl">
+                  <p>{brand}</p>
+                </li>
+              ))
+            }
+          </Grid>
+        </div>
+      </section>
+    </main>
 
-		<ContactCTA />
-	</div>
+    <ContactCTA />
+  </div>
 </BaseLayout>
 
 <style>
-	.hero {
-		display: flex; /* flex */
-		flex-direction: column; /* flex-col */
-		align-items: center; /* items-center */
-		gap: 2rem; /* gap-8 */
-	}
+  .hero img {
+    box-shadow: var(--shadow-md);
+  }
 
-	.roles {
-		display: none; /* hidden */
-	}
+  /* ====================================================== */
 
-	.hero img {
-		aspect-ratio: 5 / 4; /* aspect-[5/4] */
-		object-fit: cover; /* object-cover */
-		object-position: top; /* object-top */
-		border-radius: 1.5rem; /* rounded-3xl */
-		box-shadow: var(--shadow-md); /* shadow-[--shadow-md] */
-	}
+  .with-background::before /* before: */ {
+    --hero-bg: var(--bg-image-subtle-2);
 
-	@media (min-width: 50em /* lg */) {
-		.hero {
-			display: grid; /* lg:grid */
-			grid-template-columns: 6fr 4fr; /* lg:grid-cols-[6fr_4fr] */
-			padding-inline: 2.5rem; /* lg:ps-10 lg:pe-10 */
-			gap: 3.75rem; /* lg:gap-[3.75rem] */
-		}
+    background: url("/assets/backgrounds/noise.png") top center/220px repeat,
+      var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
+      var(--gray-999);
+    background-blend-mode: overlay, normal, normal, normal;
+    mix-blend-mode: var(--bg-blend-mode);
+  }
 
-		.roles {
-			margin-top: 0.5rem; /* lg:mt-2 */
-			display: flex; /* lg:flex */
-			gap: 0.5rem; /* lg:gap-2 */
-		}
+  .with-background.bg-variant::before /* before: */ {
+    --hero-bg: var(--bg-image-subtle-1);
+  }
 
-		.hero img {
-			aspect-ratio: 3 / 4; /* lg:aspect-[3/4] */
-			border-radius: 4.5rem; /* lg:rounded-[4.5rem] */
-			object-fit: cover; /* lg:object-cover */
-		}
-	}
+  @media (min-width: 50em /* lg */) {
+    .gallery {
+      grid-area: gallery;
+    }
 
-	/* ====================================================== */
+    .cta {
+      grid-area: cta;
+    }
+  }
 
-	.section {
-		display: grid; /* grid */
-		gap: 2rem; /* gap-8 */
-	}
+  /* ====================================================== */
 
-	.with-background {
-		position: relative; /* relative */
-	}
-
-	.with-background::before /* before: */ {
-		--hero-bg: var(--bg-image-subtle-2);
-
-		content: ''; /* before:content-[''] */
-		position: absolute; /* before:absolute */
-		pointer-events: none; /* before:pointer-events-none */
-		left: 50%; /* before:left-1/2 */
-		width: 100vw; /* before:w-screen */
-		aspect-ratio: calc(2.25 / var(--bg-scale)); /* before:aspect-[2.25/--bg-scale] */
-		top: 0; /* before:top-0 */
-		transform: translateY(-75%) translateX(-50%); /* before:-translate-y-3/4 before:-translate-x-1/2 */
-		background: url('/assets/backgrounds/noise.png') top center/220px repeat,
-			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat, var(--gray-999);
-		background-blend-mode: overlay, normal, normal, normal; /* before:bg-blend-overlay before:bg-blend-normal before:bg-blend-normal before:bg-blend-normal */
-		mix-blend-mode: var(--bg-blend-mode); /* before:mix-blend-[--bg-blend-mode] */
-		z-index: -1; /* before:-z-[1] */
-	}
-
-	.with-background.bg-variant::before /* before: */ {
-		--hero-bg: var(--bg-image-subtle-1);
-	}
-
-	.section-header {
-		justify-self: center; /* justify-self-center */
-		text-align: center; /* text-center */
-		max-width: 50ch; /* max-w-[50ch] */
-		font-size: var(--text-md); /* text-[--text-md] */
-		color: var(--gray-300); /* ! */
-	}
-
-	.section-header h3 {
-		font-size: var(--text-2xl); /* text-[--text-2xl] */
-	}
-
-	@media (min-width: 50em /* lg */) {
-		.section {
-			grid-template-columns: repeat(4, 1fr); /* grid-cols-4 */
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery'; /* grid-areas-normal */
-			gap: 5rem; /* gap-20 */
-		}
-
-		.section.with-cta {
-			grid-template-areas: 'header header header cta' 'gallery gallery gallery gallery'; /* grid-areas-cta */
-		}
-
-		.section-header {
-			grid-area: header; /* grid-in-header ! */
-			font-size: var(--text-lg); /* text-[--text-lg] */
-		}
-
-		.section-header h3 {
-			font-size: var(--text-4xl); /* text-[--text-4xl] */
-		}
-
-		.with-cta .section-header {
-			justify-self: flex-start; /* justify-self-[flex-start] ! */
-			text-align: left; /* text-left */
-		}
-
-		.gallery {
-			grid-area: gallery; /* grid-in-gallery ! */
-		}
-
-		.cta {
-			grid-area: cta; /* grid-in-cta ! */
-		}
-	}
-
-	/* ====================================================== */
-
-	.mention-card {
-		display: flex; /* flex */
-		height: 7rem; /* h-28 */
-		justify-content: center; /* justify-center */
-		align-items: center; /* items-center */
-		text-align: center; /* text-center */
-		border: 1px solid var(--gray-800); /* border border-solid border-[--gray-800] */
-		border-radius: 1.5rem; /* rounded-3xl */
-		color: var(--gray-300); /* ! */
-		background: var(--gradient-subtle); /* ! */
-		box-shadow: var(--shadow-sm); /* shadow-[--shadow-sm] */
-	}
-
-	@media (min-width: 50em) /* lg */ {
-		.mention-card {
-			border-radius: 1.5rem; /* rounded-3xl */
-			height: 9.5rem; /* h-[9.5rem] */
-		}
-	}
+  .mention-card {
+    background: var(--gradient-subtle);
+    box-shadow: var(--shadow-sm);
+  }
 </style>
