@@ -30,7 +30,9 @@ const { Content } = await entry.render();
 <BaseLayout title={entry.data.title} description={entry.data.description}>
   <div class="flex flex-col gap-20">
     <div class="flex flex-col gap-[3.75rem]">
-      <header class="border border-solid border-[color:var(--gray-800)] pb-10">
+      <header
+        class="border-b border-solid border-[color:var(--gray-800)] pb-10"
+      >
         <div
           class="me-auto ms-auto flex w-full max-w-[83rem] flex-col gap-2 pe-6 ps-6"
         >
