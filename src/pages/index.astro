@@ -96,41 +96,41 @@ const projects = (await getCollection("work"))
         </div>
       </section>
 
-      <section
-        class="section with-background bg-variant relative grid gap-8 before:pointer-events-none before:absolute before:left-1/2 before:top-0 before:-z-[1] before:aspect-[2.25/var(--bg-scale)] before:w-screen before:-translate-x-1/2 before:-translate-y-3/4 before:content-[''] lg:grid-cols-[repeat(4,_1fr)] lg:gap-20 lg:grid-areas-normal"
-      >
-        <header
-          class="flex max-w-[50ch] flex-col gap-2 justify-self-center text-center text-[length:var(--text-md)] text-[color:var(--gray-300)] lg:gap-4 lg:text-[length:var(--text-lg)] lg:grid-in-header"
-        >
-          <h3
-            class="text-[length:var(--text-2xl)] lg:text-[length:var(--text-4xl)]"
-          >
-            Mentions
-          </h3>
-          <p>
-            I have been fortunate enough to recieve praise for my work in
-            several publications. Take a look below to learn more.
-          </p>
-        </header>
-
-        <div class="gallery">
-          <Grid variant="small">
-            {
-              [
-                "Medium",
-                "BuzzFeed",
-                "The Next Web",
-                "awwwards.",
-                "TechCrunch",
-              ].map((brand) => (
-                <li class="mention-card flex h-28 items-center justify-center rounded-3xl border border-solid border-[color:var(--gray-800)] text-center text-[color:var(--gray-300)] lg:h-[9.5rem] lg:rounded-3xl">
-                  <p>{brand}</p>
-                </li>
-              ))
-            }
-          </Grid>
-        </div>
-      </section>
+      <!-- <section -->
+      <!--   class="section with-background bg-variant relative grid gap-8 before:pointer-events-none before:absolute before:left-1/2 before:top-0 before:-z-[1] before:aspect-[2.25/var(--bg-scale)] before:w-screen before:-translate-x-1/2 before:-translate-y-3/4 before:content-[''] lg:grid-cols-[repeat(4,_1fr)] lg:gap-20 lg:grid-areas-normal" -->
+      <!-- > -->
+      <!--   <header -->
+      <!--     class="flex max-w-[50ch] flex-col gap-2 justify-self-center text-center text-[length:var(--text-md)] text-[color:var(--gray-300)] lg:gap-4 lg:text-[length:var(--text-lg)] lg:grid-in-header" -->
+      <!--   > -->
+      <!--     <h3 -->
+      <!--       class="text-[length:var(--text-2xl)] lg:text-[length:var(--text-4xl)]" -->
+      <!--     > -->
+      <!--       Mentions -->
+      <!--     </h3> -->
+      <!--     <p> -->
+      <!--       I have been fortunate enough to recieve praise for my work in -->
+      <!--       several publications. Take a look below to learn more. -->
+      <!--     </p> -->
+      <!--   </header> -->
+      <!---->
+      <!--   <div class="gallery"> -->
+      <!--     <Grid variant="small"> -->
+      <!--       { -->
+      <!--         [ -->
+      <!--           "Medium", -->
+      <!--           "BuzzFeed", -->
+      <!--           "The Next Web", -->
+      <!--           "awwwards.", -->
+      <!--           "TechCrunch", -->
+      <!--         ].map((brand) => ( -->
+      <!--           <li class="mention-card flex h-28 items-center justify-center rounded-3xl border border-solid border-[color:var(--gray-800)] text-center text-[color:var(--gray-300)] lg:h-[9.5rem] lg:rounded-3xl"> -->
+      <!--             <p>{brand}</p> -->
+      <!--           </li> -->
+      <!--         )) -->
+      <!--       } -->
+      <!--     </Grid> -->
+      <!--   </div> -->
+      <!-- </section> -->
     </main>
 
     <ContactCTA />
