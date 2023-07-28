@@ -1,0 +1,24 @@
+---
+import CallToAction from "./CallToAction.astro";
+import Icon from "./Icon.astro";
+---
+
+<aside
+  class="flex flex-col items-center gap-11 border-y border-solid border-[color:var(--gray-799)] bg-[color:var(--gray-999_40)] px-6 py-20 shadow-sm lg:flex-row lg:flex-wrap lg:justify-between lg:p-[7.5rem]"
+>
+  <h2
+    class="max-w-[15ch] text-center text-[length:var(--text-xl)] lg:text-left lg:text-[length:var(--text-3xl)]"
+  >
+    Interested in working together?
+  </h2>
+  <CallToAction href="mailto:peterhsinpingchen@gmail.com">
+    Send Me a Message
+    <Icon icon="paper-plane-tilt" size="1.2em" />
+  </CallToAction>
+</aside>
+
+<style>
+  aside {
+    box-shadow: var(--shadow-sm); /* ! */
+  }
+</style>

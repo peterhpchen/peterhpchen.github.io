@@ -1,0 +1,220 @@
+---
+import Icon, { Props as IconProps } from "./Icon.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+/** Main menu items */
+const textLinks: { label: string; href: string }[] = [
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/work/" },
+  { label: "About", href: "/about/" },
+];
+
+/** Icon links to social media — edit these with links to your profiles! */
+const iconLinks: { label: string; href: string; icon: IconProps["icon"] }[] = [
+  {
+    label: "Twitter",
+    href: "https://twitter.com/peterhpchen",
+    icon: "twitter-logo",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/peterhpchen",
+    icon: "github-logo",
+  },
+  {
+    label: "CodePen",
+    href: "https://codepen.io/peterhpchen",
+    icon: "codepen-logo",
+  },
+];
+---
+
+<nav
+  class="relative z-[9999] mb-14 font-medium lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-4 lg:px-20 lg:py-10"
+>
+  <div class="flex justify-between gap-2 p-6 lg:p-0">
+    <a
+      href="/"
+      class="flex items-center gap-2 leading-[1.1] text-[color:var(--gray-0)] no-underline lg:text-[length:var(--text-lg)]"
+    >
+      <Icon
+        icon="terminal-window"
+        color="var(--accent-regular)"
+        size="1.6em"
+        gradient
+      />
+      Peter Chen
+    </a>
+    <menu-button>
+      <template>
+        <!-- <button class="menu-button" aria-expanded="false"> -->
+        <button
+          class="menu-button relative flex rounded-[999rem] border-0 p-2 text-[1.5rem] text-[color:var(--gray-300)] before:absolute before:-inset-[1px] before:-z-[1] before:rounded-[999rem] before:bg-[var(--gradient-stroke)] before:content-['']"
+          aria-expanded="false"
+        >
+          <span
+            class="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 clip-path-inset-[0_100%_100%_0]"
+            >Menu</span
+          >
+          <Icon icon="list" />
+        </button>
+      </template>
+    </menu-button>
+  </div>
+  <div id="menu-content" class="absolute inset-x-0 lg:contents">
+    <ul
+      class="nav-items m-0 flex list-none flex-col gap-4 border-b border-solid border-[color:var(--gray-800)] bg-[var(--gray-999)] p-8 text-[length:var(--text-md)] leading-[1.2] lg:relative lg:flex-row lg:rounded-[999rem] lg:border-0 lg:px-[0.5625rem] lg:py-2 lg:text-[length:var(--text-sm)] lg:before:absolute lg:before:-inset-[1px] lg:before:-z-[1] lg:before:rounded-[999rem] lg:before:bg-[var(--gradient-stroke)] lg:before:content-['']"
+    >
+      {
+        textLinks.map(({ label, href }) => (
+          <li>
+            <a
+              aria-current={Astro.url.pathname === href}
+              class:list={[
+                "link inline-block text-[color:var(--gray-300)] no-underline lg:py-2 lg:px-4 lg:rounded-[999rem] lg:hover:text-[color:var(--gray-100)] lg:hover:bg-[var(--accent-subtle-overlay)] lg:focus:text-[color:var(--gray-100)] lg:focus:bg-[var(--accent-subtle-overlay)]",
+                {
+                  active:
+                    Astro.url.pathname === href ||
+                    (href !== "/" && Astro.url.pathname.startsWith(href)),
+                },
+              ]}
+              href={href}
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div
+      class="menu-footer flex justify-between gap-3 rounded-b-xl bg-[--gray-999] p-6 pr-8 lg:items-center lg:justify-self-end lg:bg-transparent lg:p-0 lg:shadow-none"
+    >
+      <div
+        class="flex flex-wrap gap-2.5 text-[length:var(--icon-size)] lg:flex lg:justify-end lg:gap-0"
+      >
+        {
+          iconLinks.map(({ href, icon, label }) => (
+            <a
+              href={href}
+              class="social flex p-[var(--icon-padding)] text-[color:var(--accent-dark)] no-underline hover:text-[color:var(--accent-text-over)] focus:text-[color:var(--accent-text-over)]"
+            >
+              <span class="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 clip-path-inset-[0_100%_100%_0]">
+                {label}
+              </span>
+              <Icon icon={icon} />
+            </a>
+          ))
+        }
+      </div>
+
+      <div
+        class="flex h-[calc(var(--icon-size)+2*var(--icon-padding))] items-center"
+      >
+        <ThemeToggle />
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  class MenuButton extends HTMLElement {
+    constructor() {
+      super();
+
+      // Inject menu toggle button when JS runs.
+      this.appendChild(this.querySelector("template")!.content.cloneNode(true));
+      const btn = this.querySelector("button")!;
+
+      // Hide menu (shown by default to support no-JS browsers).
+      const menu = document.getElementById("menu-content")!;
+      menu.hidden = true;
+
+      /** Set whether the menu is currently expanded or collapsed. */
+      const setExpanded = (expand: boolean) => {
+        btn.setAttribute("aria-expanded", expand ? "true" : "false");
+        menu.hidden = !expand;
+      };
+
+      // Toggle menu visibility when the menu button is clicked.
+      btn.addEventListener("click", () => setExpanded(menu.hidden));
+
+      // Hide menu button for large screens.
+      const handleViewports = (e: MediaQueryList | MediaQueryListEvent) => {
+        setExpanded(e.matches);
+        btn.hidden = e.matches;
+      };
+      const mediaQueries = window.matchMedia("(min-width: 50em)");
+      handleViewports(mediaQueries);
+      mediaQueries.addEventListener("change", handleViewports);
+    }
+  }
+  customElements.define("menu-button", MenuButton);
+</script>
+
+<style>
+  nav {
+    font-family: var(--font-brand); /* ! */
+  }
+
+  .menu-button {
+    background: radial-gradient(var(--gray-900), var(--gray-800) 150%); /* ! */
+    box-shadow: var(--shadow-md); /* ! */
+  }
+
+  .menu-button[aria-expanded='true'] /* ! */ {
+    color: var(--gray-0);
+    background: linear-gradient(180deg, var(--gray-600), transparent),
+      radial-gradient(var(--gray-900), var(--gray-800) 150%);
+  }
+
+  .menu-button[hidden] /* ! */ {
+    display: none;
+  }
+
+  .link.active {
+    /* ! */
+    color: var(--gray-0);
+  }
+
+  .menu-footer {
+    --icon-size: var(--text-xl); /* ! */
+    --icon-padding: 0.5rem; /* ! */
+
+    box-shadow: var(--shadow-lg); /* ! */
+  }
+
+  .social {
+    transition: color var(--theme-transition); /* ! */
+  }
+
+  @media (min-width: 50em /* lg */) {
+    .nav-items {
+      background: radial-gradient(
+        var(--gray-900),
+        var(--gray-800) 150%
+      ); /* ! */
+      box-shadow: var(--shadow-md); /* ! */
+    }
+
+    .link {
+      transition: color var(--theme-transition),
+        background-color var(--theme-transition); /* ! */
+    }
+
+    .link.active {
+      /* ! */
+      color: var(--accent-text-over);
+      background-color: var(--accent-regular);
+    }
+
+    .menu-footer {
+      --icon-padding: 0.375rem; /* ! */
+    }
+  }
+
+  @media (forced-colors: active /* ! */) {
+    .link.active {
+      color: SelectedItem;
+    }
+  }
+</style>

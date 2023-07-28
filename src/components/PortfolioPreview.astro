@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  project: CollectionEntry<"work">;
+}
+
+const { data, slug } = Astro.props.project;
+---
+
+<a
+  class="card grid h-44 grid-cols-[auto_1fr] grid-rows-[auto_1fr] overflow-hidden rounded-xl border border-solid border-[color:var(--gray-800)] bg-[color:var(--gradient-subtle)] text-[length:var(--text-lg)] font-medium no-underline lg:h-[22rem] lg:rounded-3xl"
+  href={`/work/${slug}`}
+>
+  <span
+    class="title z-[1] m-2 rounded-md bg-[color:var(--gray-999)] px-4 py-2 text-[color:var(--gray-200)] lg:rounded-[0.9375rem]"
+    >{data.title}</span
+  >
+  <img
+    class="h-full w-full object-cover"
+    src={data.img}
+    alt={data.img_alt || ""}
+    loading="lazy"
+    decoding="async"
+  />
+</a>
+
+<style>
+  .card {
+    box-shadow: var(--shadow-sm);
+    font-family: var(--font-brand);
+    transition: box-shadow var(--theme-transition);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .title {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+
+  img {
+    grid-area: 1 / 1 / 3 / 3;
+  }
+</style>

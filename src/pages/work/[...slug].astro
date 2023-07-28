@@ -1,0 +1,123 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+import ContactCTA from "../../components/ContactCTA.astro";
+import Hero from "../../components/Hero.astro";
+import Icon from "../../components/Icon.astro";
+import Pill from "../../components/Pill.astro";
+
+interface Props {
+  entry: CollectionEntry<"work">;
+}
+
+// This is a dynamic route that generates a page for every Markdown file in src/content/
+// Read more about dynamic routes and this `getStaticPaths` function in the Astro docs:
+// https://docs.astro.build/en/core-concepts/routing/#dynamic-routes
+export async function getStaticPaths() {
+  const work = await getCollection("work");
+  return work.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+  <div class="flex flex-col gap-20">
+    <div class="flex flex-col gap-[3.75rem]">
+      <header
+        class="border-b border-solid border-[color:var(--gray-800)] pb-10"
+      >
+        <div
+          class="me-auto ms-auto flex w-full max-w-[83rem] flex-col gap-2 pe-6 ps-6"
+        >
+          <a
+            class="back-link hidden text-[color:var(--link-color)] lg:block lg:self-start"
+            href="/work/"><Icon icon="arrow-left" /> Work</a
+          >
+          <Hero title={entry.data.title} align="start">
+            <div
+              class="flex flex-col items-center justify-between gap-6 p-2 lg:flex-row lg:gap-10"
+            >
+              <div class="flex gap-2">
+                {entry.data.tags.map((t) => <Pill>{t}</Pill>)}
+              </div>
+              <p class="max-w-[54ch] text-[length:var(--text-lg)]">
+                {entry.data.description}
+              </p>
+            </div>
+          </Hero>
+        </div>
+      </header>
+      <main class="me-auto ms-auto w-full max-w-[83rem] pe-6 ps-6">
+        <div class="content me-auto ms-auto flex max-w-[65ch] flex-col gap-10">
+          {
+            entry.data.img && (
+              <img src={entry.data.img} alt={entry.data.img_alt || ""} />
+            )
+          }
+          <div class="content me-auto ms-auto max-w-[65ch]">
+            <Content />
+          </div>
+        </div>
+      </main>
+    </div>
+    <ContactCTA />
+  </div>
+</BaseLayout>
+
+<style>
+  .content > :global(* + *) {
+    margin-top: 1rem;
+  }
+
+  .content :global(h1),
+  .content :global(h2),
+  .content :global(h3),
+  .content :global(h4),
+  .content :global(h5) {
+    margin: 1.5rem 0;
+  }
+
+  .content :global(img) {
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    background: var(--gradient-subtle);
+    border: 1px solid var(--gray-800);
+  }
+
+  .content :global(blockquote) {
+    font-size: var(--text-lg);
+    font-family: var(--font-brand);
+    font-weight: 600;
+    line-height: 1.1;
+    padding-inline-start: 1.5rem;
+    border-inline-start: 0.25rem solid var(--accent-dark);
+    color: var(--gray-0);
+  }
+
+  .back-link,
+  .content :global(a) {
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+  }
+
+  .back-link:hover,
+  .back-link:focus,
+  .content :global(a:hover),
+  .content :global(a:focus) {
+    text-decoration-color: currentColor;
+  }
+
+  @media (min-width: 50em) {
+    .content :global(blockquote) {
+      font-size: var(--text-2xl);
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<section
+  class="box flex flex-col gap-12 rounded-3xl border border-solid border-[color:var(--gray-800)] bg-[color:var(--gray-999\_40)] p-6 lg:grid lg:grid-cols-[repeat(3,_1fr)] lg:gap-20 lg:rounded-3xl lg:p-10"
+>
+  <div class="flex flex-col gap-2 lg:gap-4">
+    <Icon icon="monitor" color="var(--accent-regular)" size="2.5rem" gradient />
+    <h2 class="text-[length:var(--text-lg)] lg:text-[length:var(--text-2xl)]">
+      Front-End Focused
+    </h2>
+    <p class="text-[color:var(--gray-400)]">
+      Focus on Web Frontend Development, especially Vue(Nuxt) and React(Next).
+    </p>
+  </div>
+  <div class="flex flex-col gap-2 lg:gap-4">
+    <Icon
+      icon="terminal-window"
+      color="var(--accent-regular)"
+      size="2.5rem"
+      gradient
+    />
+    <h2 class="text-[length:var(--text-lg)] lg:text-[length:var(--text-2xl)]">
+      Terminal Lover
+    </h2>
+    <p class="text-[color:var(--gray-400)]">
+      Use Terminal Tool, Shell and Vim(Neovim) to do ragular develop work. Write
+      script to reduce repeat work.
+    </p>
+  </div>
+  <div class="flex flex-col gap-2 lg:gap-4">
+    <Icon
+      icon="strategy"
+      color="var(--accent-regular)"
+      size="2.5rem"
+      gradient
+    />
+    <h2 class="text-[length:var(--text-lg)] lg:text-[length:var(--text-2xl)]">
+      Passionate About Technical
+    </h2>
+    <p class="text-[color:var(--gray-400)]">
+      Love to learn everything about software development.
+    </p>
+  </div>
+</section>
+
+<style>
+  .box {
+    box-shadow: var(--shadow-sm);
+  }
+</style>

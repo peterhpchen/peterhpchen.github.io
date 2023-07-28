@@ -1,0 +1,38 @@
+---
+import Icon from "./Icon.astro";
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class="mt-auto flex flex-col gap-12 px-8 py-12 text-center text-[length:var(--text-sm)] text-[color:var(--gray-400)] lg:flex-row lg:justify-between lg:px-20 lg:py-10"
+>
+  <div class="flex flex-col gap-2 lg:flex-row lg:flex-wrap lg:gap-4">
+    <p>
+      Designed & Developed in Portland with <a href="https://astro.build/"
+        >Astro</a
+      >
+      <Icon icon="rocket-launch" size="1.2em" />
+    </p>
+    <p>&copy; {currentYear} Peter Chen</p>
+  </div>
+  <p class="flex flex-wrap justify-center gap-4 lg:justify-end">
+    <a href="https://twitter.com/peterhpchen"> Twitter</a>
+    <a href="https://github.com/peterhpchen"> GitHub</a>
+    <a href="https://codepen.io/peterhpchen"> CodePen</a>
+  </p>
+</footer>
+<style>
+  footer a {
+    /* TODO: move to component */
+    color: var(--gray-400);
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+  }
+
+  footer a:hover,
+  footer a:focus {
+    /* TODO: move to component */
+    text-decoration-color: currentColor;
+  }
+</style>
