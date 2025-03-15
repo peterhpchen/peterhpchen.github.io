@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
-const TITLE = 'Peter Chen';
+const TITLE = 'peterhpchen';
 
 const config: Config = {
   title: TITLE,
@@ -39,6 +39,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          // path: 'docs',
         },
         blog: {
           showReadingTime: true,
@@ -83,7 +84,7 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: [
         // {
         //   title: 'Docs',
