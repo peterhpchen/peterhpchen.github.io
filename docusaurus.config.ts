@@ -39,7 +39,8 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // path: 'docs',
+          path: 'tools',
+          routeBasePath: 'tools',
         },
         blog: {
           showReadingTime: true,
@@ -73,7 +74,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: '工具',
         },
         { to: '/blog', label: 'Blog', position: 'left' },
         {
@@ -132,7 +133,16 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
+    mermaid: {
+      options: {
+        securityLevel: 'loose',
+      },
+    },
   } satisfies Preset.ThemeConfig,
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 };
 
 export default config;
